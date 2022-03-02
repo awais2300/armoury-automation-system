@@ -47,6 +47,72 @@ CREATE TABLE `security_info` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --
+-- Table structure for table `officers`
+--
+
+CREATE TABLE `officers` (
+  `id` bigint(20) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `p_no` varchar(255) NOT NULL,
+  `rank` varchar(255) NOT NULL,
+  `branch` varchar(255) NULL,
+  `reg_date` timestamp NULL DEFAULT current_timestamp(),
+  `email` varchar(200) NULL,
+  `phone` varchar(200) NULL,
+  `status` enum('active','inactive') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Table structure for table `weapons`
+--
+CREATE TABLE `weapons` (
+  `id` bigint(20) NOT NULL,
+  `weapon_name` varchar(255) NOT NULL,
+  `weapon_type` varchar(255) NOT NULL,
+  `barcode` varchar(255) NULL,
+  `availability` enum('Y','N') NOT NULL,
+  `status` enum('active','inactive') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+--
+-- Table structure for table `weapon_allocation_records`
+--
+CREATE TABLE `weapon_allocation_records` (
+  `id` bigint(20) NOT NULL,
+  `officer_id` varchar(255) NOT NULL,
+  `weapon_id` varchar(255) NOT NULL,
+  `weapon_barcode` varchar(255) NOT NULL,
+  `start_time` timestamp NULL DEFAULT current_timestamp(),
+  `end_time` timestamp NULL,
+  `magazine_provided` int NULL,
+  `status` enum('open','closed') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
+-- Table structure for table `activity_log`
+--
+
+CREATE TABLE `activity_log` (
+ `id` int(11) NOT NULL,
+ `activity_module` enum('Admin','user'),
+ `activity_action` enum('add','update','delete') ,
+ `activity_detail` text NULL,
+ `activity_by` varchar(250) NULL,
+ `activity_date` datetime
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
+-- Table structure for table `activity_log`
+--
+
+CREATE TABLE `activity_log_seen` (
+ `activity_id` int(11) NOT NULL,
+ `user_id` int(11) NOT NULL,
+ `seen` enum('yes','no') NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+--
 -- Dumping data for table `security_info`
 --
 
@@ -60,12 +126,61 @@ INSERT INTO `security_info` (`id`, `username`, `password`, `reg_date`, `acct_typ
 --
 ALTER TABLE `security_info`
   ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `officers`
+--
+ALTER TABLE `officers`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `weapons`
+--
+ALTER TABLE `weapons`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `weapon_allocation_records`
+--
+ALTER TABLE `weapon_allocation_records`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `activity_log`
+--  
+ALTER TABLE `activity_log`
+ ADD PRIMARY KEY (`id`);
+ 
   
 --
 -- AUTO_INCREMENT for table `security_info`
 --
 ALTER TABLE `security_info`
   MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `officers`
+--
+ALTER TABLE `officers`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `weapons`
+--
+ALTER TABLE `weapons`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `weapon_allocation_records`
+--
+ALTER TABLE `weapon_allocation_records`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- AUTO_INCREMENT for table `activity_log`
+--
+ALTER TABLE `activity_log`
+ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
   
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

@@ -18,21 +18,16 @@ class Project_Officer extends CI_Controller
             $id = $this->session->userdata('user_id');
             $acct_type = $this->session->userdata('acct_type');
             $this->load->view('project_officer/dashboard');
-            
         } else {
             $this->load->view('login');
         }
     }
 
-    public function add_contractors()
+    public function add_weapons()
     {
         if ($this->session->has_userdata('user_id')) {
-            if ($this->session->userdata('acct_type') != 'admin_super') {
-                $data['contractor_records'] = $this->db->where('region', $this->session->userdata('region'))->get('contractors')->result_array();
-            } else {
-                $data['contractor_records'] = $this->db->get('contractors')->result_array();
-            }
-            $this->load->view('project_officer/contractor', $data);
+            $data['weapon_records'] = $this->db->get('weapons')->result_array();
+            $this->load->view('project_officer/weapons', $data);
         }
     }
 
@@ -289,27 +284,23 @@ class Project_Officer extends CI_Controller
     }
 
 
-    public function insert_contractor()
+    public function insert_weapon()
     {
         if ($this->input->post()) {
             $postData = $this->security->xss_clean($this->input->post());
 
-            $contractor_name = $postData['contractor_name'];
-            $contact = $postData['contact'];
-            $email = $postData['email'];
-            $reg_date = $postData['reg_date'];
-            $desc = $postData['desc'];
+            $weapon_name = $postData['weapon_name'];
+            $weapon_type = $postData['weapon_type'];
+           
 
             $insert_array = array(
-                'Name' => $contractor_name,
-                'Contact_no' => $contact,
-                'Email_id' => $email,
-                'start_date' => $reg_date,
-                'description' => $desc,
-                'region' => $this->session->userdata('region')
+                'weapon_name' => $weapon_name,
+                'weapon_type' => $weapon_type,
+                'availability' => 'Y',
+                'status' => 'active'
             );
 
-            $insert = $this->db->insert('contractors', $insert_array);
+            $insert = $this->db->insert('weapons', $insert_array);
             //$last_id = $this->db->insert_id();
 
             if (!empty($insert)) {
@@ -317,44 +308,26 @@ class Project_Officer extends CI_Controller
                 $insert_activity = array(
                     'activity_module' => $this->session->userdata('acct_type'),
                     'activity_action' => 'add',
-                    'activity_detail' => "Contractor named " . $contractor_name . "  has been added",
+                    'activity_detail' => "A new weapon " . $weapon_name . "  has been added",
                     'activity_by' => $this->session->userdata('username'),
-                    'activity_date' => date('Y-m-d H:i:s'),
-                    'region' => $this->session->userdata('region')
+                    'activity_date' => date('Y-m-d H:i:s')
                 );
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
-                if ($this->session->userdata('acct_type') != 'admin_super') {
-                    $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
-                } else {
-                    $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
-                }
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
 
                 for ($i = 0; $i < count($query); $i++) {
                     $insert_activity_seen = array(
                         'activity_id' => $last_id,
                         'user_id' => $query[$i]['id'],
-                        'seen' => 'no',
-                        'region' => $this->session->userdata('region')
+                        'seen' => 'no'
                     );
                     $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
                 }
 
-                $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
-
-                for ($i = 0; $i < count($query_both); $i++) {
-                    $insert_activity_seen_both = array(
-                        'activity_id' => $last_id,
-                        'user_id' => $query_both[$i]['id'],
-                        'seen' => 'no',
-                        'region' => 'both'
-                    );
-                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
-                }
-
                 $this->session->set_flashdata('success', 'Data Submitted successfully');
-                redirect('Project_Officer/add_contractors');
+                redirect('Project_Officer/add_weapons');
             } else {
                 $this->session->set_flashdata('failure', 'Something went wrong, try again.');
             }
@@ -482,69 +455,50 @@ class Project_Officer extends CI_Controller
         }
     }
 
-    public function edit_contractor()
+    public function edit_weapon()
     {
         $id =  $_POST['id_edit'];
-        $contact_edit = $_POST['contact_edit'];
-        $email_edit = $_POST['email_edit'];
-        $reg_date_edit = $_POST['reg_date_edit'];
-        $contractor_name = $_POST['contractor_name_edit'];
+        $weapon_type_edit = $_POST['weapon_type_edit'];
+        $weapon_avail_edit = $_POST['weapon_avail_edit'];
+        $weapon_status_edit = $_POST['weapon_status_edit'];
+        $weapon_name = $_POST['weapon_name_edit'];
 
         $cond  = [
-            'ID' => $id,
-            'region' => $this->session->userdata('region')
+            'ID' => $id
         ];
         $data_update = [
-            'Contact_no' => $contact_edit,
-            'Email_id' => $email_edit,
-            'Start_date' => $reg_date_edit,
+            'weapon_type' => $weapon_type_edit,
+            'availability' => $weapon_avail_edit,
+            'status' => $weapon_status_edit,
         ];
 
         $this->db->where($cond);
-        $this->db->update('contractors', $data_update);
+        $this->db->update('weapons', $data_update);
 
         if (!empty($id)) {
             $insert_activity = array(
                 'activity_module' => $this->session->userdata('acct_type'),
                 'activity_action' => 'update',
-                'activity_detail' => "Contractor named " . $contractor_name . " has been updated",
+                'activity_detail' => "Weapon named " . $weapon_name . " has been updated",
                 'activity_by' => $this->session->userdata('username'),
-                'activity_date' => date('Y-m-d H:i:s'),
-                'region' => $this->session->userdata('region')
+                'activity_date' => date('Y-m-d H:i:s')
             );
 
             $insert = $this->db->insert('activity_log', $insert_activity);
             $last_id = $this->db->insert_id();
-            if ($this->session->userdata('acct_type') != 'admin_super') {
-                $query = $this->db->where('username !=', $this->session->userdata('username'))->where('region', $this->session->userdata('region'))->get('security_info')->result_array();
-            } else {
-                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
-            }
-
+            $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+            
             for ($i = 0; $i < count($query); $i++) {
                 $insert_activity_seen = array(
                     'activity_id' => $last_id,
                     'user_id' => $query[$i]['id'],
-                    'seen' => 'no',
-                    'region' => $this->session->userdata('region')
+                    'seen' => 'no'
                 );
                 $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
             }
 
-            $query_both = $this->db->where('username !=', $this->session->userdata('username'))->where('region', 'both')->get('security_info')->result_array();
-
-            for ($i = 0; $i < count($query_both); $i++) {
-                $insert_activity_seen_both = array(
-                    'activity_id' => $last_id,
-                    'user_id' => $query_both[$i]['id'],
-                    'seen' => 'no',
-                    'region' => 'both'
-                );
-                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen_both);
-            }
-
             $this->session->set_flashdata('success', 'Record Updated successfully');
-            redirect('Project_Officer/add_contractors');
+            redirect('Project_Officer/add_weapons');
         } else {
             $this->session->set_flashdata('failure', 'Something went delete, try again.');
         }

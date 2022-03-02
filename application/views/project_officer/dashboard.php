@@ -31,7 +31,7 @@ $this->load->view('project_officer/common/header');
 
         <div class="form-group row justify-content-center" style="margin-top:50px;">
             <div class="col-sm-4">
-                <button type="button" class="btn btn-primary btn-user btn-block" style="height:55px;  box-shadow: 5px 10px #888888;" id="btn_inventory" onclick="location.href='<?php echo base_url(); ?>Project_Officer/add_projects'">
+                <button type="button" class="btn btn-primary btn-user btn-block" style="height:55px;  box-shadow: 5px 10px #888888;" id="btn_inventory" onclick="location.href='<?php echo base_url(); ?>Project_Officer/add_weapons'">
                     <h5 style="font-weight: bold;">Add Weapons</h5>
                 </button>
             </div>

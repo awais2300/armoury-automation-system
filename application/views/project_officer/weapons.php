@@ -1,14 +1,6 @@
-<?php if ($this->session->userdata('acct_type') == 'admin_super' || $this->session->userdata('acct_type') == 'admin_south' || $this->session->userdata('acct_type') == 'admin_north') {
-    $this->load->view('Admin/common/header');
-} else if ($this->session->userdata('acct_type') == 'PO') {
-    $this->load->view('project_officer/common/header');
-} else if ($this->session->userdata('acct_type') == 'SO_RECORD') {
-    $this->load->view('so_record/common/header');
-} else if ($this->session->userdata('acct_type') == 'SO_CW') {
-    $this->load->view('so_cw/common/header');
-} else if ($this->session->userdata('acct_type') == 'SO_STORE') {
-    $this->load->view('so_store/common/header');
-} ?>
+<?php
+$this->load->view('project_officer/common/header');
+?>
 
 <style>
     .red-border {
@@ -17,10 +9,10 @@
 </style>
 
 <div class="container">
-    <div class="d-sm-flex align-items-center justify-content-between mb-4 my-2">
+    <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4 my-2">
         <h1 class="h3 mb-0 text-black-800"></h1>
         <a onclick="location.href='<?php echo base_url(); ?>Project_Officer/report_contractor'" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
-    </div>
+    </div> -->
 
     <div class="card o-hidden my-4 border-0 shadow-lg">
         <div class="modal fade" id="new_contractor">
@@ -28,7 +20,7 @@
             <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
                 <div class="modal-content bg-custom3" style="width:1000px;">
                     <div class="modal-header" style="width:1000px;">
-                        
+
                     </div>
                     <div class="card-body bg-custom3">
                         <!-- Nested Row within Card Body -->
@@ -37,62 +29,47 @@
 
                                 <div class="card">
                                     <div class="card-header bg-custom1">
-                                        <h1 class="h4">Add New Contractor</h1>
+                                        <h1 class="h4">Add New Weapon</h1>
                                     </div>
 
                                     <div class="card-body bg-custom3">
-                                        <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>Project_Officer/insert_contractor">
+                                        <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>Project_Officer/insert_weapon">
                                             <div class="form-group row">
-                                                <div class="col-sm-3">
-                                                    <h6>&nbsp;Name:</h6>
+                                                <div class="col-sm-4">
+                                                    <h6>&nbsp;Weapon Name:</h6>
                                                 </div>
 
-                                                <div class="col-sm-3">
-                                                    <h6>&nbsp;Contact:</h6>
+                                                <div class="col-sm-4">
+                                                    <h6>&nbsp;Weapon Type:</h6>
                                                 </div>
 
-                                                <div class="col-sm-3">
-                                                    <h6>&nbsp;Email:</h6>
+                                                <div class="col-sm-4">
+                                                    <h6>&nbsp;Generate BarCode:</h6>
                                                 </div>
 
-                                                <div class="col-sm-3">
-                                                    <h6>&nbsp;Registration Date:</h6>
+
+
+                                            </div>
+
+                                            <div class="form-group row">
+                                                <div class="col-sm-4 mb-1">
+                                                    <input type="text" class="form-control form-control-user" name="weapon_name" id="weapon_name" placeholder="Weapon Name">
+                                                </div>
+
+                                                <div class="col-sm-4 mb-1">
+                                                    <input type="text" class="form-control form-control-user" name="weapon_type" id="weapon_type" placeholder="Weapon Type">
+                                                </div>
+
+                                                <div class="col-sm-4 mb-1">
+                                                    <button type="button" class="btn btn-primary btn-user btn-block" id="generate_barcode">
+                                                        Generate BarCode
+                                                    </button>
                                                 </div>
 
                                             </div>
 
-
-                                            <div class="form-group row">
-                                                <div class="col-sm-3 mb-1">
-                                                    <input type="text" class="form-control form-control-user" name="contractor_name" id="contractor_name" placeholder="Contactor Name">
-                                                </div>
-
-                                                <div class="col-sm-3 mb-1">
-                                                    <input type="text" class="form-control form-control-user" name="contact" id="contact" placeholder="Contact No.">
-                                                </div>
-
-                                                <div class="col-sm-3 mb-1">
-                                                    <input type="text" class="form-control form-control-user" name="email" id="email" placeholder="Email ID">
-                                                    <span id="show_error_email" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span>
-                                                </div>
-
-                                                <div class="col-sm-3 mb-1">
-                                                    <input type="date" class="form-control form-control-user" name="reg_date" id="reg_date" placeholder="Select Date*" value="">
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <div class="col-sm-12">
-                                                    <h6>Contractor Detailed Remarks (optional):</h6>
-                                                </div>
-                                            </div>
-
-                                            <div class="form-group row">
-                                                <div class="col-sm-12">
-                                                    <input type="text" class="form-control form-control-user" name="desc" id="desc" placeholder="Enter Detail about contractor...">
-                                                </div>
-                                            </div>
-
+                                            <br>
+                                            <hr>
 
                                             <div class="form-group row justify-content-center">
                                                 <div class="col-sm-4">
@@ -132,31 +109,31 @@
 
                                 <div class="card">
                                     <div class="card-header bg-custom1">
-                                        <h1 class="h4">Edit Contactor</h1>
+                                        <h1 class="h4">Edit Weapon</h1>
                                     </div>
 
                                     <div class="card-body bg-custom3">
-                                        <form class="user" role="form" method="post" id="edit_form" action="<?= base_url(); ?>Project_Officer/edit_contractor">
+                                        <form class="user" role="form" method="post" id="edit_form" action="<?= base_url(); ?>Project_Officer/edit_weapon">
                                             <div class="form-group row">
                                                 <div class="col-sm-12">
-                                                    <h3 id="contractor_name_heading"></h3>
+                                                    <h3 id="weapon_name_heading"></h3>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-3" style="display:none">
-                                                    <h6>&nbsp;Name:</h6>
+                                                    <h6>&nbsp;Weapon Name:</h6>
                                                 </div>
 
                                                 <div class="col-sm-4">
-                                                    <h6>&nbsp;Contact No:</h6>
+                                                    <h6>&nbsp;Weapon Type:</h6>
                                                 </div>
 
                                                 <div class="col-sm-4">
-                                                    <h6>&nbsp;Email ID:</h6>
+                                                    <h6>&nbsp;Availability:</h6>
                                                 </div>
 
                                                 <div class="col-sm-4">
-                                                    <h6>&nbsp;Registration Date:</h6>
+                                                    <h6>&nbsp;Status:</h6>
                                                 </div>
 
                                             </div>
@@ -168,20 +145,19 @@
                                                 </div>
 
                                                 <div class="col-sm-4 mb-1" style="display:none">
-                                                    <input type="text" class="form-control form-control-user" name="contractor_name_edit" id="contractor_name_edit" placeholder="Contactor Name">
+                                                    <input type="text" class="form-control form-control-user" name="weapon_name_edit" id="weapon_name_edit" placeholder="Weapon Name">
                                                 </div>
 
                                                 <div class="col-sm-4 mb-1">
-                                                    <input type="text" class="form-control form-control-user" name="contact_edit" id="contact_edit" placeholder="Contact No.">
+                                                    <input type="text" class="form-control form-control-user" name="weapon_type_edit" id="weapon_type_edit" placeholder="Weapon Type">
                                                 </div>
 
                                                 <div class="col-sm-4 mb-1">
-                                                    <input type="text" class="form-control form-control-user" name="email_edit" id="email_edit" placeholder="Email ID">
-                                                    <span id="show_error_email_edit" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;not valid email id</span>
+                                                    <input type="text" class="form-control form-control-user" name="weapon_avail_edit" id="weapon_avail_edit" placeholder="Weapon Availibility">
                                                 </div>
 
                                                 <div class="col-sm-4 mb-1">
-                                                    <input type="date" class="form-control form-control-user" name="reg_date_edit" id="reg_date_edit" placeholder="Select Date*" value="">
+                                                    <input type="text" class="form-control form-control-user" name="weapon_status_edit" id="weapon_status_edit" placeholder="Weapon Status">
                                                 </div>
 
                                             </div>
@@ -312,59 +288,43 @@
 
                     <div class="card bg-custom3">
                         <div class="card-header bg-custom1">
-                            <h1 class="h4">Contractors</h1>
+                            <h1 class="h4">Weapon Database</h1>
                         </div>
 
                         <div class="card-body">
                             <div id="table_div">
-                                <?php if (count($contractor_records) > 0) { ?>
+                                <?php if (count($weapon_records) > 0) { ?>
                                     <table id="datatable" class="table table-striped" style="color:black">
                                         <thead>
                                             <tr>
                                                 <th scope="col">ID</th>
-                                                <th scope="col">Full Name</th>
-                                                <th scope="col">Contact No</th>
-                                                <th scope="col">Email</th>
-                                                <th scope="col">Register Date</th>
-                                                <th scope="col">Assigned Projects</th>
-                                                <th scope="col">Completed Projects</th>
-                                                <?php $acct_type = $this->session->userdata('acct_type');
-                                                if ($acct_type != "admin_super") {
-                                                    if ($acct_type != "admin_north") {
-                                                        if ($acct_type != "admin_south") { ?>
-                                                            <th scope="col">Edit Record</th>
-                                                <?php }
-                                                    }
-                                                } ?>
-                                                <?php if ($acct_type == "admin_super") { ?>
-                                                    <th scope="col">Region</th>
-                                                <?php } ?>
-
+                                                <th scope="col">Weapon Name</th>
+                                                <th scope="col">Weapon Type</th>
+                                                <th scope="col">Barcode</th>
+                                                <th scope="col">Availability</th>
+                                                <th scope="col">Status</th>
+                                                <!-- <th scope="col">Assigned to Officer</th> -->
+                                                <!-- <th scope="col">Completed Projects</th> -->
+                                                <th scope="col">Edit Record</th>
                                             </tr>
                                         </thead>
                                         <tbody id="table_rows_cont">
                                             <?php $count = 0;
-                                            foreach ($contractor_records as $data) { ?>
+                                            foreach ($weapon_records as $data) { ?>
                                                 <tr>
-                                                    <td scope="row" id="cont<?= $count; ?>"><?= $data['ID']; ?></td>
-                                                    <td style="width:150px" scope="row"><?= $data['Name']; ?></td>
-                                                    <td id="quant<?= $data['ID']; ?>" class="quant" scope="row"><?= $data['Contact_no']; ?></td>
-                                                    <td scope="row"><?= $data['Email_id']; ?></td>
-                                                    <td style="width:150px" scope="row"><?= $data['Start_date']; ?></td>
-                                                    <td scope="row" id="assigned_project<?= $count; ?>" style="text-align:center; background-color:darksalmon; cursor: pointer;" data-toggle="modal" data-target="#assigned_projects"><?= $data['Assigned_Projects']; ?></td>
-                                                    <td scope="row" id="completed_project<?= $count; ?>" style="text-align:center; background-color:darksalmon; cursor: pointer;" data-toggle="modal" data-target="#completed_projects"><?= $data['Completed_Projects']; ?></td>
-                                                    <?php $acct_type = $this->session->userdata('acct_type');
-                                                    if ($acct_type != "admin_super") {
-                                                        if ($acct_type != "admin_north") {
-                                                            if ($acct_type != "admin_south") { ?>
-                                                                <td style="width:120px" type="button" id="edit<?= $data['ID']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 40px;" class="fas fa-edit"></i></td>
-                                                    <?php }
-                                                        }
-                                                    } ?>
-                                                    <?php if ($acct_type == "admin_super") { ?>
-                                                        <td scope="row"><?= $data['region']; ?></td>
-                                                    <?php } ?>
-
+                                                    <td scope="row" id="cont<?= $count; ?>"><?= $data['id']; ?></td>
+                                                    <td style="width:150px" scope="row"><?= $data['weapon_name']; ?></td>
+                                                    <td class="quant" scope="row"><?= $data['weapon_type']; ?></td>
+                                                    <td style="width:150px" scope="row"><?= $data['barcode']; ?></td>
+                                                    <td scope="row"><?php if ($data['availability'] == 'Y') {
+                                                                        echo "Yes";
+                                                                    } else {
+                                                                        echo "No";
+                                                                    }; ?></td>
+                                                    <td style="width:150px" scope="row"><?= $data['status']; ?></td>
+                                                    <!-- <td scope="row" id="assigned_officers<?= $count; ?>" style="text-align:center; background-color:darksalmon; cursor: pointer;" data-toggle="modal" data-target="#assigned_projects"><?= $data['Assigned_Projects']; ?></td> -->
+                                                    <!-- <td scope="row" id="completed_project<?= $count; ?>" style="text-align:center; background-color:darksalmon; cursor: pointer;" data-toggle="modal" data-target="#completed_projects"><?= $data['Completed_Projects']; ?></td> -->
+                                                    <td style="width:120px" type="button" id="edit<?= $data['id']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 40px;" class="fas fa-edit"></i></td>
                                                 </tr>
                                             <?php
                                                 $count++;
@@ -377,23 +337,18 @@
                             </div>
                         </div>
                     </div>
-                    <?php $acct_type = $this->session->userdata('acct_type');
-                    if ($acct_type != "admin_super") {
-                        if ($acct_type != "admin_north") {
-                            if ($acct_type != "admin_south") { ?>
-                                <form class="user" role="form" method="post" id="add_form" action="">
-                                    <div class="form-group row my-2 justify-content-center">
-                                        <div class="col-sm-4">
-                                            <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn" data-toggle="modal" data-target="#new_contractor">
-                                                <i class="fas fa-plus"></i>
-                                                Add new Contractor
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
-                    <?php }
-                        }
-                    } ?>
+
+                    <form class="user" role="form" method="post" id="add_form" action="">
+                        <div class="form-group row my-2 justify-content-center">
+                            <div class="col-sm-4">
+                                <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn" data-toggle="modal" data-target="#new_contractor">
+                                    <i class="fas fa-plus"></i>
+                                    Add new Weapon
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+
                 </div>
             </div>
         </div>
@@ -461,37 +416,17 @@
         $('#add_btn').attr('disabled', true);
         var validate = 0;
 
-        var contractor_name = $('#contractor_name').val();
-        var contact = $('#contact').val();
-        var email = $('#email').val();
-        var reg_date = $('#reg_date').val();
+        var weapon_name = $('#weapon_name').val();
+        var weapon_type = $('#weapon_type').val();
 
-        if (contractor_name == '') {
+        if (weapon_name == '') {
             validate = 1;
-            $('#contractor_name').addClass('red-border');
+            $('#weapon_name').addClass('red-border');
         }
-        if (contact == '') {
+        if (weapon_type == '') {
             validate = 1;
-            $('#contact').addClass('red-border');
+            $('#weapon_type').addClass('red-border');
         }
-        if (email == '') {
-            validate = 1;
-            $('#email').addClass('red-border');
-        }
-        if (reg_date == '') {
-            validate = 1;
-            $('#reg_date').addClass('red-border');
-        }
-        if (!isEmail(email)) {
-            validate = 1;
-            $('#email').addClass('red-border');
-            $('#show_error_email').show();
-        } else {
-            validate = 0;
-            $('#email').removeClass('red-border');
-            $('#show_error_email').hide();
-        }
-
 
         if (validate == 0) {
             $('#add_form')[0].submit();
@@ -513,31 +448,21 @@
         var validate = 0;
 
         //  var material_name = $('#material_name_edit').val();
-        var contact_edit = $('#contact_edit').val();
-        var email_edit = $('#email_edit').val();
-        var reg_date_edit = $('#reg_date_edit').val();
+        var weapon_type_edit = $('#weapon_type_edit').val();
+        var weapon_avail_edit = $('#weapon_avail_edit').val();
+        var weapon_status_edit = $('#weapon_status_edit').val();
 
-        if (contact_edit == '') {
+        if (weapon_type_edit == '') {
             validate = 1;
-            $('#contact_edit').addClass('red-border');
+            $('#weapon_type_edit').addClass('red-border');
         }
-        if (email_edit == '') {
+        if (weapon_avail_edit == '') {
             validate = 1;
-            $('#email_edit').addClass('red-border');
+            $('#weapon_avail_edit').addClass('red-border');
         }
-        if (reg_date_edit == '') {
+        if (weapon_status_edit == '') {
             validate = 1;
-            $('#reg_date_edit').addClass('red-border');
-        }
-
-        if (!isEmail(email_edit)) {
-            validate = 1;
-            $('#email_edit').addClass('red-border');
-            $('#show_error_email_edit').show();
-        } else {
-            validate = 0;
-            $('#email_edit').removeClass('red-border');
-            $('#show_error_email_edit').hide();
+            $('#weapon_status_edit').addClass('red-border');
         }
 
         if (validate == 0) {
@@ -552,13 +477,13 @@
     $('#table_rows_cont').find('tr').click(function(e) {
         var $columns = $(this).find('td');
 
-        $('#contractor_name_edit').val($columns[1].innerHTML);
-        $('#contractor_name_heading').html('<strong>' + $columns[1].innerHTML + '</strong>');
+        $('#weapon_name_edit').val($columns[1].innerHTML);
+        $('#weapon_name_heading').html('<strong>' + $columns[1].innerHTML + '</strong>');
         $('#id_edit').val($columns[0].innerHTML);
         $('#contractor_name').html($columns[1].innerHTML);
-        $('#contact_edit').val($columns[2].innerHTML);
-        $('#email_edit').val($columns[3].innerHTML);
-        $('#reg_date_edit').val($columns[4].innerHTML);
+        $('#weapon_type_edit').val($columns[2].innerHTML);
+        $('#weapon_avail_edit').val($columns[4].innerHTML);
+        $('#weapon_status_edit').val($columns[5].innerHTML);
 
         if ((e.target.id.substr(0, 16) == "assigned_project") || (e.target.id.substr(0, 17) == "completed_project")) {
 

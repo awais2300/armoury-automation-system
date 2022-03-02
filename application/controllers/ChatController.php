@@ -37,11 +37,8 @@ class ChatController extends CI_Controller
 		$this->db->where('receiver_id', $this->session->userdata('user_id'));
 		$this->db->update('chat');
 
-		if ($this->session->userdata('acct_type') != 'admin_super') {
-			$data['chat_data'] = $this->db->where('receiver_id', $this->session->userdata('user_id'))->where('sender_id', $id)->where('region', $this->session->userdata('region'))->where('seen', 'no')->group_by('receiver_id')->get('chat')->result_array();
-		} else {
-			$data['chat_data'] = $this->db->where('receiver_id', $this->session->userdata('user_id'))->where('sender_id', $id)->where('seen', 'no')->group_by('receiver_id')->get('chat')->result_array();
-		}
+		$data['chat_data'] = $this->db->where('receiver_id', $this->session->userdata('user_id'))->where('sender_id', $id)->where('seen', 'no')->group_by('receiver_id')->get('chat')->result_array();
+
 		//print_r($chat_data);
 		$view_array = $this->load->view('chat/notification_ajax', $data, TRUE);
 		echo $view_array;
@@ -75,8 +72,7 @@ class ChatController extends CI_Controller
 			'file_ext' => $file_ext,
 			'mime_type' => $mime_type,
 			'message_date_time' => date('Y-m-d H:i:s'), //23 Jan 2:05 pm
-			'ip_address' => $this->input->ip_address(),
-			'region' => $this->session->userdata('region')
+			'ip_address' => $this->input->ip_address()
 		];
 
 		$query = $this->db->insert('chat', $data);
@@ -91,7 +87,6 @@ class ChatController extends CI_Controller
 	}
 	public function ChatAttachmentUpload()
 	{
-
 
 		$file_data = '';
 		if (isset($_FILES['attachmentfile']['name']) && !empty($_FILES['attachmentfile']['name'])) {
@@ -124,9 +119,6 @@ class ChatController extends CI_Controller
 		$this->db->where('activity_log.activity_by !=', $name);
 		$this->db->where('activity_log_seen.user_id', $this->session->userdata('user_id'));
 		$this->db->where('activity_log_seen.seen', 'no');
-		if ($this->session->userdata('acct_type') != 'admin_super') {
-			$this->db->where('activity_log.region', $this->session->userdata('region'));
-		}
 		$this->db->group_by('activity_id');
 		$data['notification_data'] = $this->db->get()->result_array();
 
@@ -138,21 +130,14 @@ class ChatController extends CI_Controller
 
 	public function check_activity()
 	{
-		if ($this->session->userdata('acct_type') != 'admin_super') {
-			$data['notification_data'] = $this->db->where('user_id', $this->session->userdata('user_id'))->where('region', $this->session->userdata('region'))->where('seen', 'no')->get('activity_log_seen')->result_array();
-		} else {
-			$data['notification_data'] = $this->db->where('user_id', $this->session->userdata('user_id'))->where('seen', 'no')->get('activity_log_seen')->result_array();
-		}
+
+		$data['notification_data'] = $this->db->where('user_id', $this->session->userdata('user_id'))->where('seen', 'no')->get('activity_log_seen')->result_array();
 		echo count($data['notification_data']);
 	}
 
 	public function activity_seen()
 	{
-		if ($this->session->userdata('acct_type') != 'admin_super') {
-			$notification = $this->db->where('user_id', $this->session->userdata('user_id'))->where('region', $this->session->userdata('region'))->where('seen', 'no')->get('activity_log_seen')->result_array();
-		} else {
-			$notification = $this->db->where('user_id', $this->session->userdata('user_id'))->where('seen', 'no')->get('activity_log_seen')->result_array();
-		}
+		$notification = $this->db->where('user_id', $this->session->userdata('user_id'))->where('seen', 'no')->get('activity_log_seen')->result_array();
 
 		//print_r($notification);exit;
 		for ($i = 0; $i < count($notification); $i++) {
@@ -162,11 +147,8 @@ class ChatController extends CI_Controller
 			$this->db->update('activity_log_seen');
 		}
 
-		if ($this->session->userdata('acct_type') != 'admin_super') {
-			$data['notification_data'] = $this->db->where('user_id', $this->session->userdata('user_id'))->where('region', $this->session->userdata('region'))->where('seen', 'no')->get('activity_log_seen')->result_array();
-		} else {
-			$data['notification_data'] = $this->db->where('user_id', $this->session->userdata('user_id'))->where('seen', 'no')->get('activity_log_seen')->result_array();
-		}
+		$data['notification_data'] = $this->db->where('user_id', $this->session->userdata('user_id'))->where('seen', 'no')->get('activity_log_seen')->result_array();
+
 		$view_array = $this->load->view('notification_ajax1', $data, TRUE);
 		echo $view_array;
 		json_encode($view_array);
@@ -176,26 +158,17 @@ class ChatController extends CI_Controller
 	public function check_notification()
 	{
 		$id = $_POST['id'];
-		if ($this->session->userdata('acct_type') != 'admin_super') {
-			$data['chat_data'] = $this->db->where('receiver_id', $id)->where('region', $this->session->userdata('region'))->where('seen', 'no')->group_by('receiver_id')->get('chat')->result_array();
-		} else {
-			$data['chat_data'] = $this->db->where('receiver_id', $id)->where('seen', 'no')->group_by('receiver_id')->get('chat')->result_array();
-		}
-		// $view_array = $this->load->view('chat/notification_ajax', $data, TRUE);
+		$data['chat_data'] = $this->db->where('receiver_id', $id)->where('seen', 'no')->group_by('receiver_id')->get('chat')->result_array();
 		echo count($data['chat_data']);
-		// json_encode($view_array);
 	}
 
 
 	public function update_notification()
 	{
 		$id = $_POST['id'];
-		// echo $id;exit;
-		if ($this->session->userdata('acct_type') != 'admin_super') {
-			$data['chat_data'] = $this->db->where('receiver_id', $id)->where('region', $this->session->userdata('region'))->where('seen', 'no')->group_by('receiver_id')->get('chat')->result_array();
-		} else {
-			$data['chat_data'] = $this->db->where('receiver_id', $id)->where('seen', 'no')->group_by('receiver_id')->get('chat')->result_array();
-		}
+
+		$data['chat_data'] = $this->db->where('receiver_id', $id)->where('seen', 'no')->group_by('receiver_id')->get('chat')->result_array();
+
 		//print_r($chat_data);
 		$view_array = $this->load->view('chat/notification_ajax', $data, TRUE);
 		echo $view_array;
@@ -215,9 +188,6 @@ class ChatController extends CI_Controller
 		$this->db->select('*');
 		$this->db->from('chat');
 		$this->db->where($condition);
-		if ($this->session->userdata('acct_type') != 'admin_super') {
-			$this->db->where('region', $this->session->userdata('region'));
-		}
 		$history = $this->db->get()->result_array();
 
 
@@ -355,7 +325,7 @@ class ChatController extends CI_Controller
 			$this->db->where('region', $this->session->userdata('region'));
 			$this->db->or_where('region', 'both'); //added by awais dated: 11 Dec 2021
 		}
-		
+
 		$query = $this->db->get();
 		$r = $query->result_array();
 		return $r;

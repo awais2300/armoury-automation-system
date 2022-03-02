@@ -67,7 +67,7 @@
             </div> -->
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?php echo base_url(); ?>Project_Officer/add_projects" aria-expanded="true">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>Project_Officer/add_weapons" aria-expanded="true">
                     <i style="font-size:20px" class="fas fa-tasks"></i>
                     <span> Add Weapons </span>
                 </a>
