@@ -572,6 +572,61 @@ public function insert_officer()
         }
     }
 
+    public function edit_officer()
+    {
+        $id =  $_POST['id_edit'];
+        $officer_name_edit = $_POST['officer_name_edit'];
+        $p_no_edit = $_POST['p_no_edit'];
+        $rank_edit = $_POST['rank_edit'];
+        $branch_edit = $_POST['branch_edit'];
+        $phone_edit = $_POST['phone_edit'];
+        $email_edit = $_POST['email_edit'];
+        
+
+        $cond  = [
+            'id' => $id
+        ];
+        $data_update = [
+            'name' => $officer_name_edit,
+            'p_no' => $p_no_edit,
+            'rank' => $rank_edit,
+            'branch' => $branch_edit,
+            'phone' => $phone_edit,
+            'email' => $email_edit
+        ];
+
+        $this->db->where($cond);
+        $this->db->update('officers', $data_update);
+
+        if (!empty($id)) {
+            $insert_activity = array(
+                'activity_module' => $this->session->userdata('acct_type'),
+                'activity_action' => 'update',
+                'activity_detail' => "Officer named " . $officer_name_edit . " has been updated",
+                'activity_by' => $this->session->userdata('username'),
+                'activity_date' => date('Y-m-d H:i:s')
+            );
+
+            $insert = $this->db->insert('activity_log', $insert_activity);
+            $last_id = $this->db->insert_id();
+            $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+            
+            for ($i = 0; $i < count($query); $i++) {
+                $insert_activity_seen = array(
+                    'activity_id' => $last_id,
+                    'user_id' => $query[$i]['id'],
+                    'seen' => 'no'
+                );
+                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+            }
+
+            $this->session->set_flashdata('success', 'Record Updated successfully');
+            redirect('Project_Officer/add_officers');
+        } else {
+            $this->session->set_flashdata('failure', 'Something went delete, try again.');
+        }
+    }
+
     public function insert_project()
     {
         if ($this->input->post()) {

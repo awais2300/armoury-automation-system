@@ -66,47 +66,31 @@ $this->load->view('project_officer/common/header');
 
                                             </div>
 
-                                            <br>
-
-                                             <div class="form-group row">
+                                            <div class="form-group row">
                                                 <div class="col-sm-4">
                                                     <h6>&nbsp;Branch:</h6>
                                                 </div>
-
                                                 <div class="col-sm-4">
                                                     <h6>&nbsp;Phone:</h6>
                                                 </div>
-
                                                 <div class="col-sm-4">
                                                     <h6>&nbsp;Email</h6>
                                                 </div>
-
-
-
                                             </div>
-
                                             <div class="form-group row">
                                                 <div class="col-sm-4 mb-1">
                                                     <input type="text" class="form-control form-control-user" name="branch" id="branch" placeholder="branch">
                                                 </div>
-
                                                 <div class="col-sm-4 mb-1">
-                                                   
                                                     <input type="text" class="form-control form-control-user" name="phone" id="phone" placeholder="Phone">
-                                               
                                                 </div>
-
                                                 <div class="col-sm-4 mb-1">
                                                     <input type="text" class="form-control form-control-user" name="email" id="email" placeholder="Email">
                                                 </div>
-
                                             </div>
 
                                             <br>
-                                          
 
-                                           
-                                         
                                             <hr>
 
                                             <div class="form-group row justify-content-center">
@@ -147,57 +131,70 @@ $this->load->view('project_officer/common/header');
 
                                 <div class="card">
                                     <div class="card-header bg-custom1">
-                                        <h1 class="h4">Edit Weapon</h1>
+                                        <h1 class="h4">Edit Officer</h1>
                                     </div>
 
                                     <div class="card-body bg-custom3">
-                                        <form class="user" role="form" method="post" id="edit_form" action="<?= base_url(); ?>Project_Officer/edit_weapon">
+                                        <form class="user" role="form" method="post" id="edit_form" action="<?= base_url(); ?>Project_Officer/edit_officer">
                                             <div class="form-group row">
                                                 <div class="col-sm-12">
                                                     <h3 id="weapon_name_heading"></h3>
                                                 </div>
                                             </div>
                                             <div class="form-group row">
-                                                <div class="col-sm-3" style="display:none">
-                                                    <h6>&nbsp;Weapon Name:</h6>
+                                                <div class="col-sm-4">
+                                                    <h6>&nbsp;Officer Name:</h6>
                                                 </div>
 
                                                 <div class="col-sm-4">
-                                                    <h6>&nbsp;Weapon Type:</h6>
+                                                    <h6>&nbsp;P_no:</h6>
                                                 </div>
 
                                                 <div class="col-sm-4">
-                                                    <h6>&nbsp;Availability:</h6>
-                                                </div>
-
-                                                <div class="col-sm-4">
-                                                    <h6>&nbsp;Status:</h6>
+                                                    <h6>&nbsp;Rank</h6>
                                                 </div>
 
                                             </div>
 
                                             <div class="form-group row">
-
                                                 <div class="col-sm-4 mb-1" style="display:none">
                                                     <input type="text" class="form-control form-control-user" name="id_edit" id="id_edit" placeholder="id" readonly="readonly" style="color:black; font-size:medium; background-color:lightgray; border:1px solid black;">
                                                 </div>
 
-                                                <div class="col-sm-4 mb-1" style="display:none">
-                                                    <input type="text" class="form-control form-control-user" name="weapon_name_edit" id="weapon_name_edit" placeholder="Weapon Name">
+                                                <div class="col-sm-4 mb-1">
+                                                    <input type="text" class="form-control form-control-user" name="officer_name_edit" id="officer_name_edit" placeholder="Officer Name">
                                                 </div>
 
                                                 <div class="col-sm-4 mb-1">
-                                                    <input type="text" class="form-control form-control-user" name="weapon_type_edit" id="weapon_type_edit" placeholder="Weapon Type">
+                                                    <input type="text" class="form-control form-control-user" name="p_no_edit" id="p_no_edit" placeholder="P Number">
                                                 </div>
 
                                                 <div class="col-sm-4 mb-1">
-                                                    <input type="text" class="form-control form-control-user" name="weapon_avail_edit" id="weapon_avail_edit" placeholder="Weapon Availibility">
+                                                    <input type="text" class="form-control form-control-user" name="rank_edit" id="rank_edit" placeholder="Rank">
                                                 </div>
+                                            </div>
 
+                                            <div class="form-group row">
+                                                <div class="col-sm-4">
+                                                    <h6>&nbsp;Branch:</h6>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <h6>&nbsp;Phone:</h6>
+                                                </div>
+                                                <div class="col-sm-4">
+                                                    <h6>&nbsp;Email</h6>
+                                                </div>
+                                            </div>
+                                            <div class="form-group row">
                                                 <div class="col-sm-4 mb-1">
-                                                    <input type="text" class="form-control form-control-user" name="weapon_status_edit" id="weapon_status_edit" placeholder="Weapon Status">
+                                                    <input type="text" class="form-control form-control-user" name="branch_edit" id="branch_edit" placeholder="branch">
                                                 </div>
-
+                                                <div class="col-sm-4 mb-1">
+                                                    <input type="text" class="form-control form-control-user" name="phone_edit" id="phone_edit" placeholder="Phone">
+                                                </div>
+                                                <div class="col-sm-4 mb-1">
+                                                    <input type="text" class="form-control form-control-user" name="email_edit" id="email_edit" placeholder="Email">
+                                                </div>
                                             </div>
 
                                             <div class="form-group row justify-content-center">
@@ -340,10 +337,10 @@ $this->load->view('project_officer/common/header');
                                                 <th scope="col">P_no</th>
                                                 <th scope="col">Rank</th>
                                                 <th scope="col">Branch</th>
-                                              
+
                                                 <th scope="col">Email</th>
                                                 <th scope="col">Phone</th>
-                                                <th scope="col">Status</th>
+                                                <!-- <th scope="col">Status</th> -->
                                                 <th scope="col">Edit Record</th>
                                             </tr>
                                         </thead>
@@ -352,15 +349,14 @@ $this->load->view('project_officer/common/header');
                                             foreach ($officer_records as $data) { ?>
                                                 <tr>
                                                     <td scope="row" id="cont<?= $count; ?>"><?= $data['id']; ?></td>
-                                                    <td style="width:150px" scope="row"><?= $data['name']; ?></td>
+                                                    <td scope="row"><?= $data['name']; ?></td>
                                                     <td class="quant" scope="row"><?= $data['p_no']; ?></td>
-                                                    <td style="width:150px" scope="row"><?= $data['rank']; ?></td>
-                                                    <td scope="row"><?php echo $data['branch']?></td>
-                                                    <td style="width:150px" scope="row"><?= $data['email']; ?></td>
-                                                    <td style="width:150px" scope="row"><?= $data['phone']; ?></td>
-                                                    <td style="width:150px" scope="row"><?= $data['status']; ?></td>
-                                
-                                                    <td style="width:120px" type="button" id="edit<?= $data['id']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 40px;" class="fas fa-edit"></i></td>
+                                                    <td scope="row"><?= $data['rank']; ?></td>
+                                                    <td scope="row"><?php echo $data['branch'] ?></td>
+                                                    <td scope="row"><?= $data['email']; ?></td>
+                                                    <td scope="row"><?= $data['phone']; ?></td>
+                                                    <!-- <td style="width:150px" scope="row"><?= $data['status']; ?></td> -->
+                                                    <td type="button" id="edit<?= $data['id']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 40px;" class="fas fa-edit"></i></td>
                                                 </tr>
                                             <?php
                                                 $count++;
@@ -456,7 +452,7 @@ $this->load->view('project_officer/common/header');
         var p_no = $('#p_no').val();
         var rank = $('#rank').val();
         var branch = $('#branch').val();
-        
+
         var email = $('#email').val();
         var phone = $('#phone').val();
 
@@ -468,7 +464,7 @@ $this->load->view('project_officer/common/header');
             validate = 1;
             $('#p_no').addClass('red-border');
         }
-            if (rank == '') {
+        if (rank == '') {
             validate = 1;
             $('#rank').addClass('red-border');
         }
@@ -476,16 +472,16 @@ $this->load->view('project_officer/common/header');
             validate = 1;
             $('#branch').addClass('red-border');
         }
-        
+
         if (email == '' || !isEmail(email)) {
             validate = 1;
             $('#email').addClass('red-border');
         }
-            if (phone == '') {
+        if (phone == '') {
             validate = 1;
             $('#phone').addClass('red-border');
         }
-    
+
 
         if (validate == 0) {
             $('#add_form')[0].submit();
@@ -507,21 +503,36 @@ $this->load->view('project_officer/common/header');
         var validate = 0;
 
         //  var material_name = $('#material_name_edit').val();
-        var weapon_type_edit = $('#weapon_type_edit').val();
-        var weapon_avail_edit = $('#weapon_avail_edit').val();
-        var weapon_status_edit = $('#weapon_status_edit').val();
+        var officer_name_edit = $('#officer_name_edit').val();
+        var p_no_edit = $('#p_no_edit').val();
+        var rank_edit = $('#rank_edit').val();
+        var branch_edit = $('#branch_edit').val();
+        var phone_edit = $('#phone_edit').val();
+        var email_edit = $('#email_edit').val();
 
-        if (weapon_type_edit == '') {
+        if (officer_name_edit == '') {
             validate = 1;
-            $('#weapon_type_edit').addClass('red-border');
+            $('#officer_name_edit').addClass('red-border');
         }
-        if (weapon_avail_edit == '') {
+        if (p_no_edit == '') {
             validate = 1;
-            $('#weapon_avail_edit').addClass('red-border');
+            $('#p_no_edit').addClass('red-border');
         }
-        if (weapon_status_edit == '') {
+        if (rank_edit == '') {
             validate = 1;
-            $('#weapon_status_edit').addClass('red-border');
+            $('#rank_edit').addClass('red-border');
+        }
+        if (branch_edit == '') {
+            validate = 1;
+            $('#branch_edit').addClass('red-border');
+        }
+        if (phone_edit == '') {
+            validate = 1;
+            $('#phone_edit').addClass('red-border');
+        }
+        if (email_edit == '') {
+            validate = 1;
+            $('#email_edit').addClass('red-border');
         }
 
         if (validate == 0) {
@@ -539,10 +550,12 @@ $this->load->view('project_officer/common/header');
         $('#weapon_name_edit').val($columns[1].innerHTML);
         $('#weapon_name_heading').html('<strong>' + $columns[1].innerHTML + '</strong>');
         $('#id_edit').val($columns[0].innerHTML);
-        $('#contractor_name').html($columns[1].innerHTML);
-        $('#weapon_type_edit').val($columns[2].innerHTML);
-        $('#weapon_avail_edit').val($columns[4].innerHTML);
-        $('#weapon_status_edit').val($columns[5].innerHTML);
+        $('#officer_name_edit').val($columns[1].innerHTML);
+        $('#p_no_edit').val($columns[2].innerHTML);
+        $('#rank_edit').val($columns[3].innerHTML);
+        $('#branch_edit').val($columns[4].innerHTML);
+        $('#phone_edit').val($columns[6].innerHTML);
+        $('#email_edit').val($columns[5].innerHTML);
 
         if ((e.target.id.substr(0, 16) == "assigned_project") || (e.target.id.substr(0, 17) == "completed_project")) {
 
