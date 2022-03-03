@@ -31,7 +31,7 @@ class Project_Officer extends CI_Controller
         }
     }
 
-        public function add_officers()
+    public function add_officers()
     {
         if ($this->session->has_userdata('user_id')) {
             $data['officer_records'] = $this->db->get('officers')->result_array();
@@ -299,7 +299,7 @@ class Project_Officer extends CI_Controller
 
             $weapon_name = $postData['weapon_name'];
             $weapon_type = $postData['weapon_type'];
-           
+
 
             $insert_array = array(
                 'weapon_name' => $weapon_name,
@@ -344,7 +344,7 @@ class Project_Officer extends CI_Controller
             redirect('Project_Officer');
         }
     }
-public function insert_officer()
+    public function insert_officer()
     {
         if ($this->input->post()) {
             $postData = $this->security->xss_clean($this->input->post());
@@ -352,23 +352,23 @@ public function insert_officer()
             $name = $postData['name'];
             $p_no = $postData['p_no'];
             $branch = $postData['branch'];
-           $rank = $postData['rank'];
+            $rank = $postData['rank'];
             $email = $postData['email'];
             $phone = $postData['phone'];
-           
-           
+
+
 
             $insert_array = array(
                 'name' => $name,
                 'p_no' => $p_no,
                 'rank' => $rank,
-                'email'=>$email,
-                'phone'=>$phone,
-                'branch'=>$branch,
+                'email' => $email,
+                'phone' => $phone,
+                'branch' => $branch,
                 'reg_date' => date('Y-M-D'),
-                'status'=> 'inactive'
+                'status' => 'inactive'
             );
-           // print_r($insert_array);exit;
+            // print_r($insert_array);exit;
             $insert = $this->db->insert('officers', $insert_array);
             //$last_id = $this->db->insert_id();
 
@@ -555,7 +555,7 @@ public function insert_officer()
             $insert = $this->db->insert('activity_log', $insert_activity);
             $last_id = $this->db->insert_id();
             $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
-            
+
             for ($i = 0; $i < count($query); $i++) {
                 $insert_activity_seen = array(
                     'activity_id' => $last_id,
@@ -581,7 +581,7 @@ public function insert_officer()
         $branch_edit = $_POST['branch_edit'];
         $phone_edit = $_POST['phone_edit'];
         $email_edit = $_POST['email_edit'];
-        
+
 
         $cond  = [
             'id' => $id
@@ -610,7 +610,7 @@ public function insert_officer()
             $insert = $this->db->insert('activity_log', $insert_activity);
             $last_id = $this->db->insert_id();
             $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
-            
+
             for ($i = 0; $i < count($query); $i++) {
                 $insert_activity_seen = array(
                     'activity_id' => $last_id,
@@ -1120,5 +1120,46 @@ public function insert_officer()
         } else {
             $this->load->view('userpanel/login');
         }
+    }
+
+    public function generate_barcode()
+    {
+        $this->load->view('project_officer/barcode.php');
+        
+    }
+
+    ////Define Function
+    function bar128($text)
+    { // Part 1, make list of widths
+        global $char128asc, $char128charWidth;
+        $char128asc = ' !"#$%&\'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~';
+        $char128wid = array(
+            '212222', '222122', '222221', '121223', '121322', '131222', '122213', '122312', '132212', '221213', // 0-9 
+            '221312', '231212', '112232', '122132', '122231', '113222', '123122', '123221', '223211', '221132', // 10-19 
+            '221231', '213212', '223112', '312131', '311222', '321122', '321221', '312212', '322112', '322211', // 20-29 
+            '212123', '212321', '232121', '111323', '131123', '131321', '112313', '132113', '132311', '211313', // 30-39 
+            '231113', '231311', '112133', '112331', '132131', '113123', '113321', '133121', '313121', '211331', // 40-49 
+            '231131', '213113', '213311', '213131', '311123', '311321', '331121', '312113', '312311', '332111', // 50-59 
+            '314111', '221411', '431111', '111224', '111422', '121124', '121421', '141122', '141221', '112214', // 60-69 
+            '112412', '122114', '122411', '142112', '142211', '241211', '221114', '413111', '241112', '134111', // 70-79 
+            '111242', '121142', '121241', '114212', '124112', '124211', '411212', '421112', '421211', '212141', // 80-89 
+            '214121', '412121', '111143', '111341', '131141', '114113', '114311', '411113', '411311', '113141', // 90-99
+            '114131', '311141', '411131', '211412', '211214', '211232', '23311120'
+        ); // 100-106
+
+        global $char128asc, $char128wid;
+        $w = $char128wid[$sum = 104]; // START symbol
+        $onChar = 1;
+        for ($x = 0; $x < strlen($text); $x++) // GO THRU TEXT GET LETTERS
+            if (!(($pos = strpos($char128asc, $text[$x])) === false)) { // SKIP NOT FOUND CHARS
+                $w .= $char128wid[$pos];
+                $sum += $onChar++ * $pos;
+            }
+        $w .= $char128wid[$sum % 103] . $char128wid[106]; //Check Code, then END
+        //Part 2, Write rows
+        $html = "<table cellpadding=0 cellspacing=0><tr>";
+        for ($x = 0; $x < strlen($w); $x += 2) // code 128 widths: black border, then white space
+            $html .= "<td><div class=\"b128\" style=\"border-left-width:{$w[$x]};width:{$w[$x + 1]}\"></div></td>";
+        return "$html<tr><td colspan=" . strlen($w) . " align=left><font family=arial size=2>$text</td></tr></table>";
     }
 }

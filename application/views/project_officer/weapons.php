@@ -34,17 +34,19 @@ $this->load->view('project_officer/common/header');
 
                                     <div class="card-body bg-custom3">
                                         <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>Project_Officer/insert_weapon">
+                                        <!-- <form class="user" role="form" method="post" id="add_form" action="barcode.php"> -->
                                             <div class="form-group row">
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <h6>&nbsp;Weapon Name:</h6>
                                                 </div>
-
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <h6>&nbsp;Weapon Type:</h6>
                                                 </div>
-
-                                                <div class="col-sm-4">
-                                                    <h6>&nbsp;Generate BarCode:</h6>
+                                                <div class="col-sm-3">
+                                                    <h6>&nbsp;BarCode:</h6>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <h6>&nbsp;Generate/Print:</h6>
                                                 </div>
 
 
@@ -52,19 +54,22 @@ $this->load->view('project_officer/common/header');
                                             </div>
 
                                             <div class="form-group row">
-                                                <div class="col-sm-4 mb-1">
+                                                <div class="col-sm-3 mb-1">
                                                     <input type="text" class="form-control form-control-user" name="weapon_name" id="weapon_name" placeholder="Weapon Name">
                                                 </div>
-
-                                                <div class="col-sm-4 mb-1">
+                                                <div class="col-sm-3 mb-1">
                                                     <input type="text" class="form-control form-control-user" name="weapon_type" id="weapon_type" placeholder="Weapon Type">
                                                 </div>
+                                                <div class="col-sm-3 mb-1">
+                                                    <input type="text" class="form-control form-control-user" name="barcode" id="barcode" placeholder="Enter Code">
+                                                </div>
 
-                                                <div class="col-sm-4 mb-1">
-                                                    <button type="button" class="btn btn-primary btn-user btn-block" id="generate_barcode">
+                                                <div class="col-sm-3 mb-1">
+                                                    <button type="button" class="btn btn-primary btn-user btn-block" id="generate_barcode" onclick="location.href='<?php echo base_url(); ?>Project_Officer/generate_barcode'">
                                                         Generate BarCode
                                                     </button>
                                                 </div>
+
 
                                             </div>
 
