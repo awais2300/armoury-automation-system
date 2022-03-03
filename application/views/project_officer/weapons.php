@@ -34,7 +34,7 @@ $this->load->view('project_officer/common/header');
 
                                     <div class="card-body bg-custom3">
                                         <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>Project_Officer/insert_weapon">
-                                        <!-- <form class="user" role="form" method="post" id="add_form" action="barcode.php"> -->
+                                            <!-- <form class="user" role="form" method="post" id="add_form" action="barcode.php"> -->
                                             <div class="form-group row">
                                                 <div class="col-sm-3">
                                                     <h6>&nbsp;Weapon Name:</h6>
@@ -48,9 +48,6 @@ $this->load->view('project_officer/common/header');
                                                 <div class="col-sm-3">
                                                     <h6>&nbsp;Generate/Print:</h6>
                                                 </div>
-
-
-
                                             </div>
 
                                             <div class="form-group row">
@@ -65,12 +62,11 @@ $this->load->view('project_officer/common/header');
                                                 </div>
 
                                                 <div class="col-sm-3 mb-1">
-                                                    <button type="button" class="btn btn-primary btn-user btn-block" id="generate_barcode" onclick="location.href='<?php echo base_url(); ?>Project_Officer/generate_barcode'">
-                                                        Generate BarCode
+                                                    <!-- <button type="button" class="btn btn-primary btn-user btn-block" id="generate_barcode" style="font-size:smaller" onclick="" location.href='<?php echo base_url(); ?>Project_Officer/generate_barcode/abc'"> -->
+                                                    <button type="button" class="btn btn-primary btn-user btn-block" id="generate_barcode" style="font-size:smaller" onclick="generateBarCode()">
+                                                        Generate & Print BarCode
                                                     </button>
                                                 </div>
-
-
                                             </div>
 
                                             <br>
@@ -479,6 +475,17 @@ $this->load->view('project_officer/common/header');
         }
     });
 
+    function generateBarCode() {
+        
+        $barcode = $('#barcode').val();
+        if (barcode == '') {
+            validate = 1;
+            $('#barcode').addClass('red-border');
+        }
+        
+        location.href='<?php echo base_url(); ?>Project_Officer/generate_barcode/'+$barcode;
+    }
+
     $('#table_rows_cont').find('tr').click(function(e) {
         var $columns = $(this).find('td');
 
@@ -541,67 +548,7 @@ $this->load->view('project_officer/common/header');
         }
     });
 </script>
-<!-- <script type="text/javascript">
-     $(function() {
-         $(".edit").click(function(event) {
-             var a = $(this).attr('ID');
-             //alert(a);
-             var id = a.substr(4, 5);
-             var res = "#quant".concat(id);
-             //alert(res);
 
-             if ($(this).children("input").length > 0)
-                 return false;
-
-             var tdObj = $(res);
-             var preText = tdObj.html();
-             var inputObj = $("<input type='text' style='width:60px' />");
-             tdObj.html("");
-
-             inputObj.css({
-                     border: "0px",
-                     fontSize: "15px"
-                 })
-                 .val(preText)
-                 .appendTo(tdObj)
-                 .trigger("focus")
-                 .trigger("select");
-
-             inputObj.keyup(function(event) {
-                 if (13 == event.which) { // press ENTER-key
-                     var text = $(this).val(); // alert(text);
-
-                     $.ajax({
-                         url: '<?= base_url(); ?>SO_STORE/update_inventory',
-                         method: 'POST',
-                         data: {
-                             'id': id,
-                             'quantity': text
-                         },
-                         success: function(data) {
-                             tdObj.html(text);
-
-                             $(".alert").show();
-                             window.setTimeout(function() {
-                                 $(".alert").fadeTo(500, 0).slideUp(500, function() {
-                                     $(this).remove();
-                                 });
-                             }, 2000);
-                         },
-                         async: false
-                     });
-
-                 } else if (27 == event.which) { // press ESC-key
-                     tdObj.html(preText);
-                 }
-             });
-
-             inputObj.click(function() {
-                 return false;
-             });
-         });
-     });
- </script> -->
 <script type="text/javascript">
     function seen(data) {
         alert('in');
