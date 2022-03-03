@@ -37,7 +37,7 @@ $this->load->view('project_officer/common/header');
             </div>
 
             <div class="col-sm-4">
-                <button type="button" class="btn btn-primary btn-user btn-block" style="height:55px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>Project_Officer/add_contractors'">
+                <button type="button" class="btn btn-primary btn-user btn-block" style="height:55px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>Project_Officer/add_officers'">
                     <h5 style="font-weight: bold;">Add Officers</h5>
                 </button>
             </div>

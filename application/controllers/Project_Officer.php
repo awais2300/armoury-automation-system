@@ -31,6 +31,14 @@ class Project_Officer extends CI_Controller
         }
     }
 
+        public function add_officers()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $data['officer_records'] = $this->db->get('officers')->result_array();
+            $this->load->view('project_officer/officers', $data);
+        }
+    }
+
     public function about()
     {
         if ($this->session->has_userdata('user_id')) {
@@ -336,7 +344,67 @@ class Project_Officer extends CI_Controller
             redirect('Project_Officer');
         }
     }
+public function insert_officer()
+    {
+        if ($this->input->post()) {
+            $postData = $this->security->xss_clean($this->input->post());
 
+            $name = $postData['name'];
+            $p_no = $postData['p_no'];
+            $branch = $postData['branch'];
+           $rank = $postData['rank'];
+            $email = $postData['email'];
+            $phone = $postData['phone'];
+           
+           
+
+            $insert_array = array(
+                'name' => $name,
+                'p_no' => $p_no,
+                'rank' => $rank,
+                'email'=>$email,
+                'phone'=>$phone,
+                'branch'=>$branch,
+                'reg_date' => date('Y-M-D'),
+                'status'=> 'inactive'
+            );
+           // print_r($insert_array);exit;
+            $insert = $this->db->insert('officers', $insert_array);
+            //$last_id = $this->db->insert_id();
+
+            if (!empty($insert)) {
+
+                $insert_activity = array(
+                    'activity_module' => $this->session->userdata('acct_type'),
+                    'activity_action' => 'add',
+                    'activity_detail' => "A new officer " . $name . "  has been added",
+                    'activity_by' => $this->session->userdata('username'),
+                    'activity_date' => date('Y-m-d H:i:s')
+                );
+
+                $insert = $this->db->insert('activity_log', $insert_activity);
+                $last_id = $this->db->insert_id();
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+
+                for ($i = 0; $i < count($query); $i++) {
+                    $insert_activity_seen = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query[$i]['id'],
+                        'seen' => 'no'
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+                }
+
+                $this->session->set_flashdata('success', 'Data Submitted successfully');
+                redirect('Project_Officer/add_officers');
+            } else {
+                $this->session->set_flashdata('failure', 'Something went wrong, try again.');
+            }
+        } else {
+            $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
+            redirect('Project_Officer');
+        }
+    }
     public function delete_project_id()
     {
         $id = $_POST['id'];

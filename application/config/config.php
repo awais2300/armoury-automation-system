@@ -23,7 +23,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | a PHP script and you can easily do that on your own.
 |
 */
-$config['base_url'] = 'http://localhost/armoury-automation-system/';
+$config['base_url'] = 'http://localhost/armour_automation/armoury-automation-system/';
 
 /*
 |--------------------------------------------------------------------------
