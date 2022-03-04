@@ -532,6 +532,7 @@ class Project_Officer extends CI_Controller
         $weapon_avail_edit = $_POST['weapon_avail_edit'];
         $weapon_status_edit = $_POST['weapon_status_edit'];
         $weapon_name = $_POST['weapon_name_edit'];
+        $barcode_edit = $_POST['barcode_edit'];
 
         $cond  = [
             'ID' => $id
@@ -540,6 +541,7 @@ class Project_Officer extends CI_Controller
             'weapon_type' => $weapon_type_edit,
             'availability' => $weapon_avail_edit,
             'status' => $weapon_status_edit,
+            'barcode' => $barcode_edit
         ];
 
         $this->db->where($cond);

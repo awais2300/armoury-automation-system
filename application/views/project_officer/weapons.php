@@ -45,7 +45,7 @@ $this->load->view('project_officer/common/header');
                                                 <div class="col-sm-4">
                                                     <h6>&nbsp;BarCode:</h6>
                                                 </div>
-                                              <!--   <div class="col-sm-3">
+                                                <!--   <div class="col-sm-3">
                                                     <h6>&nbsp;Generate/Print:</h6>
                                                 </div> -->
                                             </div>
@@ -61,12 +61,12 @@ $this->load->view('project_officer/common/header');
                                                     <input type="text" class="form-control form-control-user" name="barcode" id="barcode" placeholder="Enter Code">
                                                 </div>
 
-                                               <!--  <div class="col-sm-3 mb-1"> -->
-                                                    <!-- <button type="button" class="btn btn-primary btn-user btn-block" id="generate_barcode" style="font-size:smaller" onclick="" location.href='<?php echo base_url(); ?>Project_Officer/generate_barcode/abc'"> -->
-                                                  <!--   <button type="button" class="btn btn-primary btn-user btn-block" id="generate_barcode" style="font-size:smaller" onclick="generateBarCode()">
+                                                <!--  <div class="col-sm-3 mb-1"> -->
+                                                <!-- <button type="button" class="btn btn-primary btn-user btn-block" id="generate_barcode" style="font-size:smaller" onclick="" location.href='<?php echo base_url(); ?>Project_Officer/generate_barcode/abc'"> -->
+                                                <!--   <button type="button" class="btn btn-primary btn-user btn-block" id="generate_barcode" style="font-size:smaller" onclick="generateBarCode()">
                                                         Generate & Print BarCode
                                                     </button> -->
-                                               <!--  </div> -->
+                                                <!--  </div> -->
                                             </div>
 
                                             <br>
@@ -125,15 +125,19 @@ $this->load->view('project_officer/common/header');
                                                     <h6>&nbsp;Weapon Name:</h6>
                                                 </div>
 
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <h6>&nbsp;Weapon Type:</h6>
                                                 </div>
 
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
+                                                    <h6>&nbsp;Barcode:</h6>
+                                                </div>
+
+                                                <div class="col-sm-3">
                                                     <h6>&nbsp;Availability:</h6>
                                                 </div>
 
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <h6>&nbsp;Status:</h6>
                                                 </div>
 
@@ -141,23 +145,27 @@ $this->load->view('project_officer/common/header');
 
                                             <div class="form-group row">
 
-                                                <div class="col-sm-4 mb-1" style="display:none">
+                                                <div class="col-sm-3 mb-1" style="display:none">
                                                     <input type="text" class="form-control form-control-user" name="id_edit" id="id_edit" placeholder="id" readonly="readonly" style="color:black; font-size:medium; background-color:lightgray; border:1px solid black;">
                                                 </div>
 
-                                                <div class="col-sm-4 mb-1" style="display:none">
+                                                <div class="col-sm-3 mb-1" style="display:none">
                                                     <input type="text" class="form-control form-control-user" name="weapon_name_edit" id="weapon_name_edit" placeholder="Weapon Name">
                                                 </div>
 
-                                                <div class="col-sm-4 mb-1">
+                                                <div class="col-sm-3 mb-1">
                                                     <input type="text" class="form-control form-control-user" name="weapon_type_edit" id="weapon_type_edit" placeholder="Weapon Type">
                                                 </div>
 
-                                                <div class="col-sm-4 mb-1">
+                                                <div class="col-sm-3 mb-1">
+                                                    <input type="text" class="form-control form-control-user" name="barcode_edit" id="barcode_edit" placeholder="Enter Barcode">
+                                                </div>
+
+                                                <div class="col-sm-3 mb-1">
                                                     <input type="text" class="form-control form-control-user" name="weapon_avail_edit" id="weapon_avail_edit" placeholder="Weapon Availibility">
                                                 </div>
 
-                                                <div class="col-sm-4 mb-1">
+                                                <div class="col-sm-3 mb-1">
                                                     <input type="text" class="form-control form-control-user" name="weapon_status_edit" id="weapon_status_edit" placeholder="Weapon Status">
                                                 </div>
 
@@ -307,6 +315,7 @@ $this->load->view('project_officer/common/header');
                                                 <!-- <th scope="col">Assigned to Officer</th> -->
                                                 <!-- <th scope="col">Completed Projects</th> -->
                                                 <th scope="col">Edit Record</th>
+                                                <th scope="col">Generate Barcode</th>
                                             </tr>
                                         </thead>
                                         <tbody id="table_rows_cont">
@@ -326,10 +335,10 @@ $this->load->view('project_officer/common/header');
                                                     <!-- <td scope="row" id="assigned_officers<?= $count; ?>" style="text-align:center; background-color:darksalmon; cursor: pointer;" data-toggle="modal" data-target="#assigned_projects"><?= $data['Assigned_Projects']; ?></td> -->
                                                     <!-- <td scope="row" id="completed_project<?= $count; ?>" style="text-align:center; background-color:darksalmon; cursor: pointer;" data-toggle="modal" data-target="#completed_projects"><?= $data['Completed_Projects']; ?></td> -->
                                                     <td style="width:120px" type="button" id="edit<?= $data['id']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 40px;" class="fas fa-edit"></i></td>
-                                                    
-                                                      <td>  <button type="button" class="btn btn-primary btn-user btn-block" id="generate_barcode" style="font-size:smaller" onclick="generateBarCode(<?= $data['barcode'] ?>)">
-                                                        Generate & Print BarCode
-                                                    </button></td>
+
+                                                    <td> <button type="button" class="btn btn-primary btn-user rounded-pill" id="generate_barcode" style="font-size:smaller" onclick="generateBarCode(<?= $data['barcode'] ?>)">
+                                                            Generate Barcode
+                                                        </button></td>
                                                 </tr>
                                             <?php
                                                 $count++;
@@ -423,7 +432,7 @@ $this->load->view('project_officer/common/header');
 
         var weapon_name = $('#weapon_name').val();
         var weapon_type = $('#weapon_type').val();
-        var barcode=$('#barcode').val();
+        var barcode = $('#barcode').val();
 
         if (weapon_name == '') {
             validate = 1;
@@ -433,7 +442,7 @@ $this->load->view('project_officer/common/header');
             validate = 1;
             $('#weapon_type').addClass('red-border');
         }
-          if (barcode == '') {
+        if (barcode == '') {
             validate = 1;
             $('#barcode').addClass('red-border');
         }
@@ -461,6 +470,7 @@ $this->load->view('project_officer/common/header');
         var weapon_type_edit = $('#weapon_type_edit').val();
         var weapon_avail_edit = $('#weapon_avail_edit').val();
         var weapon_status_edit = $('#weapon_status_edit').val();
+        var barcode_edit = $('#barcode_edit').val();
 
         if (weapon_type_edit == '') {
             validate = 1;
@@ -474,6 +484,10 @@ $this->load->view('project_officer/common/header');
             validate = 1;
             $('#weapon_status_edit').addClass('red-border');
         }
+        if (barcode_edit == '') {
+            validate = 1;
+            $('#barcode_edit').addClass('red-border');
+        }
 
         if (validate == 0) {
             $('#edit_form')[0].submit();
@@ -484,14 +498,12 @@ $this->load->view('project_officer/common/header');
         }
     });
 
-    function generateBarCode(barcode) {  
-        alert(barcode);
-        //$barcode = $('#barcode').val();
-        // if (barcode == '') {
-        //     validate = 1;
-        //     $('#barcode').addClass('red-border');
-        // }     
-        location.href='<?php echo base_url(); ?>Project_Officer/generate_barcode/'+barcode;
+    function generateBarCode(barcode) {
+        if (barcode != undefined) {
+            location.href = '<?php echo base_url(); ?>Project_Officer/generate_barcode/' + barcode;
+        } else {
+            alert("Barcode not defined");
+        }
     }
 
     $('#table_rows_cont').find('tr').click(function(e) {
@@ -502,6 +514,7 @@ $this->load->view('project_officer/common/header');
         $('#id_edit').val($columns[0].innerHTML);
         $('#contractor_name').html($columns[1].innerHTML);
         $('#weapon_type_edit').val($columns[2].innerHTML);
+        $('#barcode_edit').val($columns[3].innerHTML);
         $('#weapon_avail_edit').val($columns[4].innerHTML);
         $('#weapon_status_edit').val($columns[5].innerHTML);
 
