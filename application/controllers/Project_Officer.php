@@ -39,6 +39,14 @@ class Project_Officer extends CI_Controller
         }
     }
 
+    public function allocate_weapon()
+    {
+        if ($this->session->has_userdata('user_id')) {
+            $data['weapon_records'] = $this->db->get('weapons')->result_array();
+            $this->load->view('project_officer/allocate_weapon', $data);
+        }
+    }
+
     public function about()
     {
         if ($this->session->has_userdata('user_id')) {
@@ -305,7 +313,7 @@ class Project_Officer extends CI_Controller
             $insert_array = array(
                 'weapon_name' => $weapon_name,
                 'weapon_type' => $weapon_type,
-                'barcode'=>$barcode,
+                'barcode' => $barcode,
                 'availability' => 'Y',
                 'status' => 'active'
             );
@@ -1130,7 +1138,15 @@ class Project_Officer extends CI_Controller
     {
         $data['bar_code'] = $code;
         // echo $data; exit;
-        $this->load->view('project_officer/barcode.php',$data);
-        
+        $this->load->view('project_officer/barcode.php', $data);
+    }
+
+    public function search_officer_for_allocation()
+    {
+        if ($this->input->post()) {
+            $p_no = $_POST['p_no'];
+            $query = $this->db->where('p_no', $p_no)->get('officers')->row_array();
+            echo json_encode($query);
+        }
     }
 }

@@ -42,7 +42,7 @@ $this->load->view('project_officer/common/header');
                 </button>
             </div>
             <div class="col-sm-4">
-                <button type="button" class="btn btn-primary btn-user btn-block" style="height:55px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>Project_Officer/add_contractors'">
+                <button type="button" class="btn btn-primary btn-user btn-block" style="height:55px;  box-shadow: 5px 10px #888888;" id="btn_material" onclick="location.href='<?php echo base_url(); ?>Project_Officer/allocate_weapon'">
                     <h5 style="font-weight: bold;">Allocate Weapons</h5>
                 </button>
             </div>
