@@ -299,11 +299,13 @@ class Project_Officer extends CI_Controller
 
             $weapon_name = $postData['weapon_name'];
             $weapon_type = $postData['weapon_type'];
+            $barcode = $postData['barcode'];
 
 
             $insert_array = array(
                 'weapon_name' => $weapon_name,
                 'weapon_type' => $weapon_type,
+                'barcode'=>$barcode,
                 'availability' => 'Y',
                 'status' => 'active'
             );

@@ -36,37 +36,37 @@ $this->load->view('project_officer/common/header');
                                         <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>Project_Officer/insert_weapon">
                                             <!-- <form class="user" role="form" method="post" id="add_form" action="barcode.php"> -->
                                             <div class="form-group row">
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-4">
                                                     <h6>&nbsp;Weapon Name:</h6>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-4">
                                                     <h6>&nbsp;Weapon Type:</h6>
                                                 </div>
-                                                <div class="col-sm-3">
+                                                <div class="col-sm-4">
                                                     <h6>&nbsp;BarCode:</h6>
                                                 </div>
-                                                <div class="col-sm-3">
+                                              <!--   <div class="col-sm-3">
                                                     <h6>&nbsp;Generate/Print:</h6>
-                                                </div>
+                                                </div> -->
                                             </div>
 
                                             <div class="form-group row">
-                                                <div class="col-sm-3 mb-1">
+                                                <div class="col-sm-4 mb-1">
                                                     <input type="text" class="form-control form-control-user" name="weapon_name" id="weapon_name" placeholder="Weapon Name">
                                                 </div>
-                                                <div class="col-sm-3 mb-1">
+                                                <div class="col-sm-4 mb-1">
                                                     <input type="text" class="form-control form-control-user" name="weapon_type" id="weapon_type" placeholder="Weapon Type">
                                                 </div>
-                                                <div class="col-sm-3 mb-1">
+                                                <div class="col-sm-4 mb-1">
                                                     <input type="text" class="form-control form-control-user" name="barcode" id="barcode" placeholder="Enter Code">
                                                 </div>
 
-                                                <div class="col-sm-3 mb-1">
+                                               <!--  <div class="col-sm-3 mb-1"> -->
                                                     <!-- <button type="button" class="btn btn-primary btn-user btn-block" id="generate_barcode" style="font-size:smaller" onclick="" location.href='<?php echo base_url(); ?>Project_Officer/generate_barcode/abc'"> -->
-                                                    <button type="button" class="btn btn-primary btn-user btn-block" id="generate_barcode" style="font-size:smaller" onclick="generateBarCode()">
+                                                  <!--   <button type="button" class="btn btn-primary btn-user btn-block" id="generate_barcode" style="font-size:smaller" onclick="generateBarCode()">
                                                         Generate & Print BarCode
-                                                    </button>
-                                                </div>
+                                                    </button> -->
+                                               <!--  </div> -->
                                             </div>
 
                                             <br>
@@ -326,6 +326,10 @@ $this->load->view('project_officer/common/header');
                                                     <!-- <td scope="row" id="assigned_officers<?= $count; ?>" style="text-align:center; background-color:darksalmon; cursor: pointer;" data-toggle="modal" data-target="#assigned_projects"><?= $data['Assigned_Projects']; ?></td> -->
                                                     <!-- <td scope="row" id="completed_project<?= $count; ?>" style="text-align:center; background-color:darksalmon; cursor: pointer;" data-toggle="modal" data-target="#completed_projects"><?= $data['Completed_Projects']; ?></td> -->
                                                     <td style="width:120px" type="button" id="edit<?= $data['id']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 40px;" class="fas fa-edit"></i></td>
+                                                    
+                                                      <td>  <button type="button" class="btn btn-primary btn-user btn-block" id="generate_barcode" style="font-size:smaller" onclick="generateBarCode(<?= $data['barcode'] ?>)">
+                                                        Generate & Print BarCode
+                                                    </button></td>
                                                 </tr>
                                             <?php
                                                 $count++;
@@ -419,6 +423,7 @@ $this->load->view('project_officer/common/header');
 
         var weapon_name = $('#weapon_name').val();
         var weapon_type = $('#weapon_type').val();
+        var barcode=$('#barcode').val();
 
         if (weapon_name == '') {
             validate = 1;
@@ -427,6 +432,10 @@ $this->load->view('project_officer/common/header');
         if (weapon_type == '') {
             validate = 1;
             $('#weapon_type').addClass('red-border');
+        }
+          if (barcode == '') {
+            validate = 1;
+            $('#barcode').addClass('red-border');
         }
 
         if (validate == 0) {
@@ -475,15 +484,14 @@ $this->load->view('project_officer/common/header');
         }
     });
 
-    function generateBarCode() {
-        
-        $barcode = $('#barcode').val();
-        if (barcode == '') {
-            validate = 1;
-            $('#barcode').addClass('red-border');
-        }
-        
-        location.href='<?php echo base_url(); ?>Project_Officer/generate_barcode/'+$barcode;
+    function generateBarCode(barcode) {  
+        alert(barcode);
+        //$barcode = $('#barcode').val();
+        // if (barcode == '') {
+        //     validate = 1;
+        //     $('#barcode').addClass('red-border');
+        // }     
+        location.href='<?php echo base_url(); ?>Project_Officer/generate_barcode/'+barcode;
     }
 
     $('#table_rows_cont').find('tr').click(function(e) {
