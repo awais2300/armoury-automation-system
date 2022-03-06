@@ -1,14 +1,6 @@
-<?php if ($this->session->userdata('acct_type') == 'admin_super' || $this->session->userdata('acct_type') == 'admin_south' || $this->session->userdata('acct_type') == 'admin_north') {
-    $this->load->view('Admin/common/header');
-} else if ($this->session->userdata('acct_type') == 'PO') {
+<?php 
     $this->load->view('project_officer/common/header');
-} else if ($this->session->userdata('acct_type') == 'SO_RECORD') {
-    $this->load->view('so_record/common/header');
-} else if ($this->session->userdata('acct_type') == 'SO_CW') {
-    $this->load->view('so_cw/common/header');
-} else if ($this->session->userdata('acct_type') == 'SO_STORE') {
-    $this->load->view('so_store/common/header');
-} ?>
+?>
  <style>
      .img {
          background: url('<?= base_url() ?>assets/img/project-banner.jpg');

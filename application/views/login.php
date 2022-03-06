@@ -60,7 +60,7 @@
             <div class="col-lg-6 d-none d-lg-block bg-login-image "></div>
            
             <div class="col-lg-6">
-              <div class="p-5">
+              <div class="p-5" style="margin-top:30px">
                 <form class="user" role="form" id="login_form" method="post" action="<?php echo base_url(); ?>User_Login/login_process">
                   <div class="form-group">
                     <input type="text" class="form-control form-control-user" name="username" id="username" placeholder="Enter Username...">
@@ -89,11 +89,8 @@
                     <i class="fas fa-key"></i>
                     Login
                   </button>
-                  <hr>
-                  <button type="button" class="btn btn-primary btn-user btn-block" id="btn_back" onclick="location.href='<?php echo base_url(); ?>'">
-                    <i class="fas fa-arrow-left"></i>
-                    Back
-                  </button>
+                  
+                 
 
                 </form>
                 <hr>

@@ -114,7 +114,7 @@
                             </div>
                             <hr>
                             <div style="border:4px solid grey; padding:10px; border-radius:25px">
-                            <h3 style="text-align:center; text-decoration:underline; padding:10px"><strong>Weapon Allocation Form</strong></h3>
+                                <h3 style="text-align:center; text-decoration:underline; padding:10px"><strong>Weapon Allocation Form</strong></h3>
                                 <div class="form-group row">
                                     <div class="col-sm-3">
                                         <h6>&nbsp;Select Weapon:</h6>
@@ -131,16 +131,23 @@
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-3 mb-1">
-                                        <select class="form-control form-control-user" name="observation" id="observation" placeholder="Add Observation"></select>
+                                        <select class="form-control rounded-pill" name="select_weapon" id="select_weapon" data-placeholder="Select Weapon" style="font-size: 0.8rem; height:50px;">
+                                            <option class="form-control form-control-user" value="">Select Weapon</option>
+                                            <?php foreach ($weapon_records as $data) { ?>
+                                                <option class="form-control form-control-user" value="<?= $data['weapon_name'] ?>"><?= $data['weapon_name'] ?></option>
+                                            <?php } ?>
+                                        </select>
                                     </div>
                                     <div class="col-sm-3 mb-1">
                                         <input class="form-control form-control-user" name="mag_count" id="mag_count" placeholder="No. of Magazines">
                                     </div>
                                     <div class="col-sm-3 mb-1">
-                                        <input class="form-control form-control-user" name="start_time" id="start_time" placeholder="Start Time">
+                                        <!-- <input class="form-control form-control-user" name="start_time" id="start_time" placeholder="Start Time"> -->
+                                        <input class="form-control form-control-user" type="time" id="start_time" name="start_time" min="00:00" max="24:00">
                                     </div>
                                     <div class="col-sm-3 mb-1">
-                                        <input class="form-control form-control-user" name="return_time" id="return_time" placeholder="Return Time">
+                                        <!-- <input class="form-control form-control-user" name="return_time" id="return_time" placeholder="Return Time"> -->
+                                        <input class="form-control form-control-user" type="time" id="return_time" name="return_time" min="00:00" max="24:00">
                                     </div>
                                 </div>
                             </div>
@@ -238,6 +245,9 @@
                         $('#division').val(result['branch']);
                         $('#oc_num').val(result['p_no']);
                         $('#id').val(result['id']);
+                        var dt = new Date();
+                        var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+                        $('#start_time').val(time);
                     } else {
                         $('#no_data').show();
                         $('#search_cadet').hide();
@@ -260,12 +270,23 @@
     $('#save_btn').on('click', function() {
         $('#save_btn').attr('disabled', true);
         var validate = 0;
-        var observation = $('#observation').val();
+        var select_weapon = $('#select_weapon').val();
+        var mag_count = $('#mag_count').val();
+        var start_time = $('#start_time').val();
+        var return_time = $('#return_time').val();
 
 
-        if (observation == '') {
+        if (select_weapon == '') {
             validate = 1;
-            $('#observation').addClass('red-border');
+            $('#select_weapon').addClass('red-border');
+        }
+        if (mag_count == '') {
+            validate = 1;
+            $('#mag_count').addClass('red-border');
+        }
+        if (start_time == '') {
+            validate = 1;
+            $('#start_time').addClass('red-border');
         }
 
         if (validate == 0) {
