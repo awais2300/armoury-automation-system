@@ -1210,7 +1210,9 @@ class Project_Officer extends CI_Controller
     {
         if ($this->input->post()) {
             $p_no = $_POST['p_no'];
-            $query = $this->db->where('p_no', $p_no)->get('officers')->row_array();
+            $query['officer'] = $this->db->where('p_no', $p_no)->get('officers')->row_array();
+            $query['exist'] = $this->db->where('officer_id',  $query['officer']['id'])->where('status','open')->get('weapon_allocation_records')->row_array();
+            //print_r($query['exist']);exit;
             echo json_encode($query);
         }
     }

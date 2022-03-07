@@ -240,11 +240,26 @@
                         $('#search_cadet').show();
                         $('#no_data').hide();
 
-                        $('#name').val(result['name']);
-                        $('#term').val(result['rank']);
-                        $('#division').val(result['branch']);
-                        $('#oc_num').val(result['p_no']);
-                        $('#id').val(result['id']);
+                        $('#name').val(result['officer']['name']);
+                        $('#rank').val(result['officer']['rank']);
+                        $('#branch').val(result['officer']['branch']);
+                        $('#oc_num').val(result['officer']['p_no']);
+                        $('#id').val(result['officer']['id']);
+
+                        if(result['exist'] != null){
+                             $('#select_weapon').val(result['exist']['weapon_id']);
+                               $('#select_weapon').attr("disabled", true); 
+                             $('#mag_count').val(result['exist']['magazine_provided']);
+                             document.getElementById('mag_count').readOnly = true;  
+
+                              // var datum = Date.parse(result['exist']['start_time']);
+                              // var d= datum/1000; 
+                             $('#start_time').val(result['exist']['start_time']);
+                             document.getElementById('start_time').readOnly = true;   
+
+                             $('#return_time').val(result['exist']['end_time']);
+                        }
+
                         var dt = new Date();
                         var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
                         $('#start_time').val(time);
