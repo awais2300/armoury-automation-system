@@ -77,7 +77,7 @@
                     </div>
 
                     <div class="card-body bg-custom3">
-                        <form class="user" role="form" method="post" id="save_form" action="<?= base_url(); ?>Project_Officer/save_cadet_observation">
+                        <form class="user" role="form" method="post" id="save_form" action="<?= base_url(); ?>Project_Officer/save_weapon_allocation">
                             <div class="form-group row">
                                 <div class="col-sm-4">
                                     <h6>&nbsp;Name:</h6>
@@ -105,10 +105,10 @@
                                     <input type="text" class="form-control form-control-user" name="name" id="name" style="font-weight: bold; font-size:large" placeholder="Name" readonly>
                                 </div>
                                 <div class="col-sm-4 mb-1">
-                                    <input type="text" class="form-control form-control-user" name="term" id="term" style="font-weight: bold; font-size:large" placeholder="Term" readonly>
+                                    <input type="text" class="form-control form-control-user" name="rank" id="rank" style="font-weight: bold; font-size:large" placeholder="Term" readonly>
                                 </div>
                                 <div class="col-sm-4 mb-1">
-                                    <input type="text" class="form-control form-control-user" name="division" id="division" style="font-weight: bold; font-size:large" placeholder="Division" readonly>
+                                    <input type="text" class="form-control form-control-user" name="branch" id="branch" style="font-weight: bold; font-size:large" placeholder="Division" readonly>
                                 </div>
 
                             </div>
@@ -134,7 +134,7 @@
                                         <select class="form-control rounded-pill" name="select_weapon" id="select_weapon" data-placeholder="Select Weapon" style="font-size: 0.8rem; height:50px;">
                                             <option class="form-control form-control-user" value="">Select Weapon</option>
                                             <?php foreach ($weapon_records as $data) { ?>
-                                                <option class="form-control form-control-user" value="<?= $data['weapon_name'] ?>"><?= $data['weapon_name'] ?></option>
+                                                <option class="form-control form-control-user" value="<?= $data['id'] ?>"><?= $data['weapon_name'] ?></option>
                                             <?php } ?>
                                         </select>
                                     </div>
@@ -143,11 +143,11 @@
                                     </div>
                                     <div class="col-sm-3 mb-1">
                                         <!-- <input class="form-control form-control-user" name="start_time" id="start_time" placeholder="Start Time"> -->
-                                        <input class="form-control form-control-user" type="time" id="start_time" name="start_time" min="00:00" max="24:00">
+                                        <input class="form-control form-control-user" type="datetime-local" id="start_time" name="start_time" min="00:00" max="24:00">
                                     </div>
                                     <div class="col-sm-3 mb-1">
                                         <!-- <input class="form-control form-control-user" name="return_time" id="return_time" placeholder="Return Time"> -->
-                                        <input class="form-control form-control-user" type="time" id="return_time" name="return_time" min="00:00" max="24:00">
+                                        <input class="form-control form-control-user" type="datetime-local" id="return_time" name="return_time" min="00:00" max="24:00">
                                     </div>
                                 </div>
                             </div>

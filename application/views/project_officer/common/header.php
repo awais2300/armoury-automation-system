@@ -79,7 +79,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link collapsed" href="<?php echo base_url(); ?>Project_Officer/add_contractors" aria-expanded="true">
+                <a class="nav-link collapsed" href="<?php echo base_url(); ?>Project_Officer/allocate_weapon" aria-expanded="true">
                     <i style="font-size:20px" class="fas fa-file-signature"></i>
                     <span> Allocate Weapon </span>
                 </a>
