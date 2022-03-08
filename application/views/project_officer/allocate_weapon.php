@@ -77,44 +77,59 @@
                     </div>
 
                     <div class="card-body bg-custom3">
+
                         <form class="user" role="form" method="post" id="save_form" action="<?= base_url(); ?>Project_Officer/save_weapon_allocation">
                             <div class="form-group row">
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <h6>&nbsp;Name:</h6>
                                 </div>
 
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <h6>&nbsp;Rank:</h6>
                                 </div>
 
-                                <div class="col-sm-4">
+                                <div class="col-sm-3">
                                     <h6>&nbsp;Branch:</h6>
                                 </div>
 
                             </div>
                             <div class="form-group row">
 
-                                <div class="col-sm-4 mb-1" style="display:none">
+                                <div class="col-sm-3 mb-1" style="display:none">
                                     <input type="text" class="" name="oc_num" id="oc_num">
                                 </div>
-                                <div class="col-sm-4 mb-1" style="display:none">
+                                <div class="col-sm-3 mb-1" style="display:none">
                                     <input type="text" class="" name="id" id="id">
                                 </div>
 
-                                <div class="col-sm-4 mb-1">
+                                <div class="col-sm-3 mb-1">
                                     <input type="text" class="form-control form-control-user" name="name" id="name" style="font-weight: bold; font-size:large" placeholder="Name" readonly>
                                 </div>
-                                <div class="col-sm-4 mb-1">
+                                <div class="col-sm-3 mb-1">
                                     <input type="text" class="form-control form-control-user" name="rank" id="rank" style="font-weight: bold; font-size:large" placeholder="Term" readonly>
                                 </div>
-                                <div class="col-sm-4 mb-1">
+                                <div class="col-sm-3 mb-1">
                                     <input type="text" class="form-control form-control-user" name="branch" id="branch" style="font-weight: bold; font-size:large" placeholder="Division" readonly>
                                 </div>
 
+                                <div class="col-sm-3">
+                                    <button type="button" class="btn btn-primary btn-user btn-block" id="history_btn" style="font-size:smaller">
+                                        <i class="fas fa-download fa-sm text-white-50"></i> Complete Allocation History
+                                    </button>
+                                </div>
+
                             </div>
+                            <!-- <hr>
+                            <div class="d-sm-flex align-items-center justify-content-between bg-custom3">
+                                <h1 class="h3 mb-0 text-black-800"></h1>
+                                <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-download fa-sm text-white-50"></i> Complete Allocation History</a>
+                            </div> -->
                             <hr>
                             <div style="border:4px solid grey; padding:10px; border-radius:25px">
                                 <h3 style="text-align:center; text-decoration:underline; padding:10px"><strong>Weapon Allocation Form</strong></h3>
+                                <div class="col-sm-12 mb-1" style="text-align:right">
+                                    <p id="show_status">&nbsp;</p>
+                                </div>
                                 <div class="form-group row">
                                     <div class="col-sm-3">
                                         <h6>&nbsp;Select Weapon:</h6>
@@ -130,6 +145,12 @@
                                     </div>
                                 </div>
                                 <div class="form-group row">
+                                    <div class="col-sm-3 mb-1" style="display:none">
+                                        <input class="form-control form-control-user" name="weapon_id" id="weapon_id" placeholder="No. of Magazines">
+                                    </div>
+                                    <div class="col-sm-3 mb-1" style="display:none">
+                                        <input class="form-control form-control-user" name="record_type" id="record_type" placeholder="No. of Magazines">
+                                    </div>
                                     <div class="col-sm-3 mb-1">
                                         <select class="form-control rounded-pill" name="select_weapon" id="select_weapon" data-placeholder="Select Weapon" style="font-size: 0.8rem; height:50px;">
                                             <option class="form-control form-control-user" value="">Select Weapon</option>
@@ -142,11 +163,9 @@
                                         <input class="form-control form-control-user" name="mag_count" id="mag_count" placeholder="No. of Magazines">
                                     </div>
                                     <div class="col-sm-3 mb-1">
-                                        <!-- <input class="form-control form-control-user" name="start_time" id="start_time" placeholder="Start Time"> -->
                                         <input class="form-control form-control-user" type="datetime-local" id="start_time" name="start_time" min="00:00" max="24:00">
                                     </div>
                                     <div class="col-sm-3 mb-1">
-                                        <!-- <input class="form-control form-control-user" name="return_time" id="return_time" placeholder="Return Time"> -->
                                         <input class="form-control form-control-user" type="datetime-local" id="return_time" name="return_time" min="00:00" max="24:00">
                                     </div>
                                 </div>
@@ -246,23 +265,30 @@
                         $('#oc_num').val(result['officer']['p_no']);
                         $('#id').val(result['officer']['id']);
 
-                        if(result['exist'] != null){
-                             $('#select_weapon').val(result['exist']['weapon_id']);
-                               $('#select_weapon').attr("disabled", true); 
-                             $('#mag_count').val(result['exist']['magazine_provided']);
-                             document.getElementById('mag_count').readOnly = true;  
+                        if (result['exist'] != null) {
+                            $('#select_weapon').val(result['exist']['weapon_id']);
+                            $('#record_type').val("Old");
+                            $('#weapon_id').val(result['exist']['weapon_id']);
+                            $('#show_status').html("<p style='color:green'>Status: <strong>" + result['exist']['status'] + "</strong></p>");
+                            $('#select_weapon').attr("disabled", true);
+                            $('#mag_count').val(result['exist']['magazine_provided']);
+                            document.getElementById('mag_count').readOnly = true;
 
-                              // var datum = Date.parse(result['exist']['start_time']);
-                              // var d= datum/1000; 
-                             $('#start_time').val(result['exist']['start_time']);
-                             document.getElementById('start_time').readOnly = true;   
+                            var date_part = result['exist']['start_time'].substring(0, 10);
+                            var time_part = result['exist']['start_time'].substring(11, 16);
+                            $('#start_time').val(date_part + "T" + time_part);
 
-                             $('#return_time').val(result['exist']['end_time']);
+                            document.getElementById('start_time').readOnly = true;
+                            $('#return_time').val(result['exist']['end_time']);
+
+                            $('#save_btn').html("Update");
+                        } else {
+                            $('#record_type').val("New");
                         }
 
-                        var dt = new Date();
-                        var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
-                        $('#start_time').val(time);
+                        // var dt = new Date();
+                        // var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+                        // $('#start_time').val(time);
                     } else {
                         $('#no_data').show();
                         $('#search_cadet').hide();

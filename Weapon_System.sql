@@ -86,7 +86,7 @@ CREATE TABLE `weapon_allocation_records` (
   `start_time` timestamp NULL DEFAULT current_timestamp(),
   `end_time` timestamp NULL,
   `magazine_provided` int NULL,
-  `status` enum('open','closed') NOT NULL
+  `status` enum('Open','Closed') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 --

@@ -270,12 +270,7 @@ class Project_Officer extends CI_Controller
     public function view_activity_log()
     {
         if ($this->session->has_userdata('user_id')) {
-            if ($this->session->userdata('acct_type') != 'admin_super') {
-                $data['activity_log'] = $this->db->where('region', $this->session->userdata('region'))->get('activity_log')->result_array();
-            } else {
-                $data['activity_log'] = $this->db->get('activity_log')->result_array();
-            }
-
+            $data['activity_log'] = $this->db->get('activity_log')->result_array();
             $this->load->view('project_officer/activity_log', $data);
         }
     }
@@ -416,43 +411,74 @@ class Project_Officer extends CI_Controller
         }
     }
 
-    public function save_weapon_allocation(){
-     if ($this->input->post()) {
+    public function save_weapon_allocation()
+    {
+        if ($this->input->post()) {
             $postData = $this->security->xss_clean($this->input->post());
 
-            
+            $record_type = $postData["record_type"];
+
             $officer_id = $postData['id'];
-            $weapon_id = $postData['select_weapon'];
-            $barcode_data= $this->db->where('id', $weapon_id)->get('weapons')->row_array();
+            if ($record_type == "New") {
+                $weapon_id = $postData['select_weapon'];
+            } else {
+                $weapon_id = $postData['weapon_id'];
+            }
+
+            $barcode_data = $this->db->where('id', $weapon_id)->get('weapons')->row_array();
             $weapon_barcode =  $barcode_data['barcode'];
             $start_time = $postData['start_time'];
             $return_time = $postData['return_time'];
             $mag_count = $postData['mag_count'];
 
 
+            if ($record_type == "New") {
+                $insert_array = array(
+                    'officer_id' => $officer_id,
+                    'weapon_id' => $weapon_id,
+                    'weapon_barcode' => $weapon_barcode,
+                    'start_time' => $start_time,
+                    'end_time' => $return_time,
+                    'magazine_provided' => $mag_count,
+                    'status' => 'Open'
+                );
+                //print_r($insert_array);exit;
+                $insert = $this->db->insert('weapon_allocation_records', $insert_array);
+                //$last_id = $this->db->insert_id();
+            } else if ($record_type == "Old") {
 
-            $insert_array = array(
-                'officer_id' => $officer_id,
-                'weapon_id' => $weapon_id,
-                'weapon_barcode' => $weapon_barcode,
-                'start_time' => $start_time,
-                'end_time' => $return_time,
-                'magazine_provided' => $mag_count,
-                'status' => 'open'
-            );
-            //print_r($insert_array);exit;
-            $insert = $this->db->insert('weapon_allocation_records', $insert_array);
-            //$last_id = $this->db->insert_id();
+                $cond  = [
+                    'officer_id' => $officer_id,
+                    'weapon_id' => $weapon_id
+                ];
+                $data_update = [
+                    'end_time' => $return_time,
+                    'Status' => 'Closed',
+                ];
+
+                $this->db->where($cond);
+                $insert =  $this->db->update('weapon_allocation_records', $data_update);
+            }
 
             if (!empty($insert)) {
 
-                $insert_activity = array(
-                    'activity_module' => $this->session->userdata('acct_type'),
-                    'activity_action' => 'add',
-                    'activity_detail' => "A weapon has been allocated to" .$postData['rank']." ".$postData['name'] ,
-                    'activity_by' => $this->session->userdata('username'),
-                    'activity_date' => date('Y-m-d H:i:s')
-                );
+                if ($record_type == "New") {
+                    $insert_activity = array(
+                        'activity_module' => $this->session->userdata('acct_type'),
+                        'activity_action' => 'add',
+                        'activity_detail' => "Weapon (". $barcode_data['weapon_name'] .") has been allocated to " . $postData['rank'] . " " . $postData['name'] . " on Date: " . $start_time,
+                        'activity_by' => $this->session->userdata('username'),
+                        'activity_date' => date('Y-m-d H:i:s')
+                    );
+                } else {
+                    $insert_activity = array(
+                        'activity_module' => $this->session->userdata('acct_type'),
+                        'activity_action' => 'add',
+                        'activity_detail' => "Weapon (". $barcode_data['weapon_name'] . ") has been Returned by " . $postData['rank'] . " " . $postData['name'] . " Date: " . $return_time,
+                        'activity_by' => $this->session->userdata('username'),
+                        'activity_date' => date('Y-m-d H:i:s')
+                    );
+                }
 
                 $insert = $this->db->insert('activity_log', $insert_activity);
                 $last_id = $this->db->insert_id();
@@ -466,8 +492,11 @@ class Project_Officer extends CI_Controller
                     );
                     $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
                 }
-
-                $this->session->set_flashdata('success', 'Data Submitted successfully');
+                if ($record_type == "New") {
+                    $this->session->set_flashdata('success', 'Data Submitted successfully');
+                } else {
+                    $this->session->set_flashdata('success', 'Data Updated successfully');
+                }
                 redirect('Project_Officer/allocate_weapon');
             } else {
                 $this->session->set_flashdata('failure', 'Something went wrong, try again.');
@@ -476,7 +505,6 @@ class Project_Officer extends CI_Controller
             $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
             redirect('Project_Officer');
         }
-
     }
 
 
@@ -1211,7 +1239,7 @@ class Project_Officer extends CI_Controller
         if ($this->input->post()) {
             $p_no = $_POST['p_no'];
             $query['officer'] = $this->db->where('p_no', $p_no)->get('officers')->row_array();
-            $query['exist'] = $this->db->where('officer_id',  $query['officer']['id'])->where('status','open')->get('weapon_allocation_records')->row_array();
+            $query['exist'] = $this->db->where('officer_id',  $query['officer']['id'])->where('status', 'open')->get('weapon_allocation_records')->row_array();
             //print_r($query['exist']);exit;
             echo json_encode($query);
         }
