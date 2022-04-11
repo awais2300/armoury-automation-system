@@ -75,7 +75,7 @@
             <li class="nav-item">
                 <a class="nav-link collapsed" href="<?php echo base_url(); ?>Project_Officer/add_officers" aria-expanded="true">
                     <i style="font-size:20px" class="fas fa-file-signature"></i>
-                    <span> Add Officers </span>
+                    <span> Add Personal </span>
                 </a>
             </li>
             <li class="nav-item">

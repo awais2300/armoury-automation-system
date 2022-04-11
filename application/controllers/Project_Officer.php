@@ -43,7 +43,9 @@ class Project_Officer extends CI_Controller
     {
         if ($this->session->has_userdata('user_id')) {
             $data['weapon_records'] = $this->db->get('weapons')->result_array();
-            $this->load->view('project_officer/allocate_weapon', $data);
+            $data['weapon_allocation_records'] = $this->db->get('weapon_allocation_records')->result_array();
+            // $this->load->view('project_officer/allocate_weapon', $data);
+            $this->load->view('project_officer/allocate_weapon_excel', $data);
         }
     }
 
@@ -326,7 +328,7 @@ class Project_Officer extends CI_Controller
                     'activity_date' => date('Y-m-d H:i:s')
                 );
 
-                $insert = $this->db->insert('activity_log', $insert_activity);
+                // $insert = $this->db->insert('activity_log', $insert_activity);//commented as per client request
                 $last_id = $this->db->insert_id();
                 $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
 
@@ -336,7 +338,7 @@ class Project_Officer extends CI_Controller
                         'user_id' => $query[$i]['id'],
                         'seen' => 'no'
                     );
-                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+                    // $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);//commented as per client request
                 }
 
                 $this->session->set_flashdata('success', 'Data Submitted successfully');
@@ -387,7 +389,7 @@ class Project_Officer extends CI_Controller
                     'activity_date' => date('Y-m-d H:i:s')
                 );
 
-                $insert = $this->db->insert('activity_log', $insert_activity);
+                // $insert = $this->db->insert('activity_log', $insert_activity);//commented as per client request
                 $last_id = $this->db->insert_id();
                 $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
 
@@ -397,7 +399,7 @@ class Project_Officer extends CI_Controller
                         'user_id' => $query[$i]['id'],
                         'seen' => 'no'
                     );
-                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+                    // $insert = $this->db->insert('activity_log_seen', $insert_activity_seen); //commented as per client request
                 }
 
                 $this->session->set_flashdata('success', 'Data Submitted successfully');
@@ -657,7 +659,7 @@ class Project_Officer extends CI_Controller
                 'activity_date' => date('Y-m-d H:i:s')
             );
 
-            $insert = $this->db->insert('activity_log', $insert_activity);
+            // $insert = $this->db->insert('activity_log', $insert_activity);//commented as per client request
             $last_id = $this->db->insert_id();
             $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
 
@@ -667,7 +669,7 @@ class Project_Officer extends CI_Controller
                     'user_id' => $query[$i]['id'],
                     'seen' => 'no'
                 );
-                $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+                // $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);//commented as per client request
             }
 
             $this->session->set_flashdata('success', 'Record Updated successfully');

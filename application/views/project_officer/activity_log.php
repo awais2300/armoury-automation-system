@@ -29,7 +29,7 @@
 
                      <div class="card bg-custom3">
                          <div class="card-header bg-custom1">
-                             <h1 class="h4">Activity Log Detail</h1>
+                             <h1 class="h4">Weapon Allocation Detail</h1>
                          </div>
 
                          <div class="card-body">

@@ -29,7 +29,7 @@ $this->load->view('project_officer/common/header');
 
                                 <div class="card">
                                     <div class="card-header bg-custom1">
-                                        <h1 class="h4">Add New Officer</h1>
+                                        <h1 class="h4">Add New Personal</h1>
                                     </div>
 
                                     <div class="card-body bg-custom3">
@@ -143,7 +143,7 @@ $this->load->view('project_officer/common/header');
                                             </div>
                                             <div class="form-group row">
                                                 <div class="col-sm-4">
-                                                    <h6>&nbsp;Officer Name:</h6>
+                                                    <h6>&nbsp;Personal Name:</h6>
                                                 </div>
 
                                                 <div class="col-sm-4">
@@ -323,7 +323,7 @@ $this->load->view('project_officer/common/header');
 
                     <div class="card bg-custom3">
                         <div class="card-header bg-custom1">
-                            <h1 class="h4">Officer Database</h1>
+                            <h1 class="h4">Personals Database</h1>
                         </div>
 
                         <div class="card-body">
@@ -375,7 +375,7 @@ $this->load->view('project_officer/common/header');
                             <div class="col-sm-4">
                                 <button type="button" class="btn btn-primary btn-user btn-block" id="add_btn" data-toggle="modal" data-target="#new_contractor">
                                     <i class="fas fa-plus"></i>
-                                    Add new Officer
+                                    Add new Personal
                                 </button>
                             </div>
                         </div>
