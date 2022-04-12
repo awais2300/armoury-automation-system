@@ -76,7 +76,7 @@
         <!-- Bootstrap core JavaScript-->
         <script src="<?php echo base_url(); ?>assets/vendor/jquery/jquery.min.js"></script>
         <!-- JS link for calender -->
-        <script src="<?php echo base_url(); ?>assets/fullcalendar/lib/jquery.min.js"></script>
+        <!-- <script src="<?php echo base_url(); ?>assets/fullcalendar/lib/jquery.min.js"></script> -->
         <script src="<?php echo base_url(); ?>assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
         <!-- Core plugin JavaScript-->

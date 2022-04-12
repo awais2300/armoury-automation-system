@@ -468,7 +468,7 @@ class Project_Officer extends CI_Controller
                     $insert_activity = array(
                         'activity_module' => $this->session->userdata('acct_type'),
                         'activity_action' => 'add',
-                        'activity_detail' => "Weapon (". $barcode_data['weapon_name'] .") has been allocated to " . $postData['rank'] . " " . $postData['name'] . " on Date: " . $start_time,
+                        'activity_detail' => "Weapon (" . $barcode_data['weapon_name'] . ") has been allocated to " . $postData['rank'] . " " . $postData['name'] . " on Date: " . $start_time,
                         'activity_by' => $this->session->userdata('username'),
                         'activity_date' => date('Y-m-d H:i:s')
                     );
@@ -476,7 +476,7 @@ class Project_Officer extends CI_Controller
                     $insert_activity = array(
                         'activity_module' => $this->session->userdata('acct_type'),
                         'activity_action' => 'add',
-                        'activity_detail' => "Weapon (". $barcode_data['weapon_name'] . ") has been Returned by " . $postData['rank'] . " " . $postData['name'] . " Date: " . $return_time,
+                        'activity_detail' => "Weapon (" . $barcode_data['weapon_name'] . ") has been Returned by " . $postData['rank'] . " " . $postData['name'] . " Date: " . $return_time,
                         'activity_by' => $this->session->userdata('username'),
                         'activity_date' => date('Y-m-d H:i:s')
                     );
@@ -507,6 +507,73 @@ class Project_Officer extends CI_Controller
             $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
             redirect('Project_Officer');
         }
+    }
+
+
+    public function save_weapon_allocation_excel()
+    {
+       
+            $p_no = $_POST['p_no'];
+            $weapon_id = $_POST['weapon_id'];
+            $barcode_data = $this->db->where('id', $weapon_id)->get('weapons')->row_array();
+            $weapon_barcode =  $barcode_data['barcode'];
+            $officer_id = $_POST['officer_id'];
+            $ammo = $_POST['ammo'];
+            $issue_by = $_POST['issue_by'];
+            $start_time = $_POST['start_time'];
+            $return_time = $_POST['return_time'];
+            $maintain_on = $_POST['maintain_on'];
+
+            $rank = $_POST['rank'];
+            $name = $_POST['name'];
+            $weapon_name =   $barcode_data['weapon_name'];
+
+            $insert_array = array(
+                'officer_id' => $officer_id,
+                'p_no'=>$p_no,
+                'name' => $name,
+                'rank' => $rank,
+                'weapon_id' => $weapon_id,
+                'weapon_name' => $weapon_name,
+                'weapon_barcode' => $weapon_barcode,
+                'issued_by' => $issue_by,
+                'start_time' => $start_time,
+                'end_time' => $return_time,
+                'magazine_provided' => $ammo,
+                'maintain_on' => $maintain_on,
+                'status' => 'Open'
+            );
+            //print_r($insert_array);exit;
+            $insert = $this->db->insert('weapon_allocation_records', $insert_array);
+            //$last_id = $this->db->insert_id();
+
+            if (!empty($insert)) {
+
+                $insert_activity = array(
+                    'activity_module' => $this->session->userdata('acct_type'),
+                    'activity_action' => 'add',
+                    'activity_detail' => "Weapon (" . $barcode_data['weapon_name'] . ") has been allocated to " . $rank . " " . $name . " on Date: " . $start_time,
+                    'activity_by' => $this->session->userdata('username'),
+                    'activity_date' => date('Y-m-d H:i:s')
+                );
+
+                $insert = $this->db->insert('activity_log', $insert_activity);
+                $last_id = $this->db->insert_id();
+                $query = $this->db->where('username !=', $this->session->userdata('username'))->get('security_info')->result_array();
+
+                for ($i = 0; $i < count($query); $i++) {
+                    $insert_activity_seen = array(
+                        'activity_id' => $last_id,
+                        'user_id' => $query[$i]['id'],
+                        'seen' => 'no'
+                    );
+                    $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
+                }
+                // redirect('Project_Officer/allocate_weapon');
+            } else {
+                // $this->session->set_flashdata('failure', 'Something went wrong, try again.');
+            }
+      
     }
 
 
