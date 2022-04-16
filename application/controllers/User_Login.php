@@ -11,16 +11,18 @@ class User_Login extends CI_Controller
 		$this->load->view('login');
 	}
 
-	
+
 
 	public function show_login_page()
 	{
 		if ($this->session->has_userdata('user_id')) {
 			$id = $this->session->userdata('user_id');
 			$acct_type = $this->session->userdata('acct_type');
-			
-			if ($acct_type == "user" || $acct_type =="admin") {
+
+			if ($acct_type == "user") {
 				redirect('Project_Officer');
+			} else if ($acct_type == "admin") {
+				redirect('Admin');
 			} else {
 				$this->load->view('login');
 			}
@@ -93,12 +95,12 @@ class User_Login extends CI_Controller
 		$acct_type = $_POST['status'];
 		$id = $this->session->userdata('user_id');
 
-		$name=$this->db->where('id',$id)->get('security_info')->row_array();
+		$name = $this->db->where('id', $id)->get('security_info')->row_array();
 		//echo $name['username'];exit;
 
 		$cond  = ['ID' => $id];
 		$data_update = [
-			'username'=>$username,
+			'username' => $username,
 			'full_name' => $fullname,
 			'email' => $email,
 			'phone' => $phone,
@@ -111,13 +113,13 @@ class User_Login extends CI_Controller
 
 		$cond_project  = ['created_by' => $name['username']];
 		$data_update_project = [
-			'created_by'=>$username
+			'created_by' => $username
 		];
 
 		$this->db->where($cond_project);
 		$update_project = $this->db->update('projects', $data_update_project);
 
-        $this->session->set_userdata('username', $username);
+		$this->session->set_userdata('username', $username);
 
 		if ($update) {
 			$this->session->set_flashdata('success', 'Profile Updated successfully');

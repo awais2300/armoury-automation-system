@@ -102,4 +102,33 @@ class Admin extends CI_Controller
             $this->load->view('Admin/activity_log', $data);
         }
     }
+
+    public function show_user_list()
+    {
+        $data['users_list'] = $this->db->where_not_in('acct_type','admin')->get('security_info')->result_array();
+        $this->load->view('Admin/user_list', $data);
+    }
+
+    public function delete_user($user_id = NULL)
+    {
+
+        // $update_array = array(
+        //     'is_active' => 'no'
+        // );
+
+        // $cond  = ['id' => $user_id];
+        // $this->db->where($cond);
+        // $update = $this->db->update('security_info', $update_array);
+
+        $this->db->where('id', $user_id);
+        $update = $this->db->delete('security_info');
+
+        if (!empty($update)) {
+            $this->session->set_flashdata('success', 'Account Deleted Successfully');
+            redirect('Admin/show_user_list');
+        } else {
+            $this->session->set_flashdata('failure', 'Error');
+            redirect('Admin/show_user_list');
+        }
+    }
 }

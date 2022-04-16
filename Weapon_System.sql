@@ -70,6 +70,7 @@ CREATE TABLE `weapons` (
   `weapon_name` varchar(255) NOT NULL,
   `weapon_type` varchar(255) NOT NULL,
   `barcode` varchar(255) NULL,
+  `maintenance_on` date NULL, 
   `availability` enum('Y','N') NOT NULL,
   `status` enum('active','inactive') NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -305,12 +305,14 @@ class Project_Officer extends CI_Controller
             $weapon_name = $postData['weapon_name'];
             $weapon_type = $postData['weapon_type'];
             $barcode = $postData['barcode'];
+            $maintenance_on = $postData['maintenance_on'];
 
 
             $insert_array = array(
                 'weapon_name' => $weapon_name,
                 'weapon_type' => $weapon_type,
                 'barcode' => $barcode,
+                'maintenance_on' => $maintenance_on,
                 'availability' => 'Y',
                 'status' => 'active'
             );
@@ -1309,7 +1311,16 @@ class Project_Officer extends CI_Controller
             $p_no = $_POST['p_no'];
             $query['officer'] = $this->db->where('p_no', $p_no)->get('officers')->row_array();
             $query['exist'] = $this->db->where('officer_id',  $query['officer']['id'])->where('status', 'open')->get('weapon_allocation_records')->row_array();
-            //print_r($query['exist']);exit;
+            $query['user'] = $this->session->userdata('username');
+            echo json_encode($query);
+        }
+    }
+
+    public function search_weapon_for_allocation()
+    {
+        if ($this->input->post()) {
+            $weapon_id = $_POST['weapon_id'];
+            $query['weapon'] = $this->db->where('id', $weapon_id)->get('weapons')->row_array();
             echo json_encode($query);
         }
     }

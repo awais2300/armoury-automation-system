@@ -59,7 +59,12 @@
                 </a>
             </li>
 
-
+            <li class="nav-item">
+                <a class="nav-link" href="<?= base_url(); ?>Admin/show_user_list" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-user-times"></i>
+                    <span>Delete User</span>
+                </a>
+            </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="<?php echo base_url(); ?>User_Login/edit_profile" aria-expanded="true">
                     <i style="font-size:20px" class="fas fa-user-edit"></i>

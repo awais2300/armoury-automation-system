@@ -117,7 +117,7 @@
                                         <?php } ?>
                                     </select></td>
                                 <td><input id="ammo" style="display:none"></td>
-                                <td><input id="issue_by" style="display:none"></td>
+                                <td id="issue_by"></td>
                                 <td><input id="start_time" type="datetime-local" style="display:none; width:120px !important"></td>
                                 <td><input id="end_time" type="datetime-local" style="display:none; width:120px !important"></td>
                                 <td><input id="maintain_on" type="date" style="display:none; width:120px !important"></td>
@@ -197,10 +197,12 @@
                         $('#search_cadet').show();
                         $('#no_data').hide();
 
+
                         $('#name').html(result['officer']['name']);
                         $('#officer_id').html(result['officer']['id']);
                         $('#rank').html(result['officer']['rank']);
                         $('#branch').html(result['officer']['branch']);
+                        $('#issue_by').html(result['user']);
 
                         $('#weapon').show();
                         $('#ammo').show();
@@ -227,6 +229,51 @@
 
     });
 
+    $('#select_weapon').on('change', function() {
+        var validate = 0;
+        var weapon_id = $('#select_weapon').val();
+
+        if (weapon_id == '') {
+            validate = 1;
+            $('#select_weapon').addClass('red-border');
+        }
+
+        if (validate == 0) {
+            // $('#add_form')[0].submit();
+            $('#show_error_new').hide();
+
+            $.ajax({
+                url: '<?= base_url(); ?>Project_Officer/search_weapon_for_allocation',
+                method: 'POST',
+                data: {
+                    'weapon_id': weapon_id
+                },
+                success: function(data) {
+                    var result = jQuery.parseJSON(data);
+
+                    if (result != undefined) {
+                        $('#search_cadet').show();
+                        $('#no_data').hide();
+
+                        $('#maintain_on').val(result['weapon']['maintenance_on']);
+
+                    } else {
+                        $('#no_data').show();
+                        $('#search_cadet').hide();
+
+                    }
+
+                },
+                async: true
+            });
+
+        } else {
+            $('#add_btn').removeAttr('disabled');
+            $('#show_error_new').show();
+        }
+
+    });
+
 
     $('#save').on('click', function() {
         var validate = 0;
@@ -234,7 +281,7 @@
         var weapon_name = $('#select_weapon').html();
         var officer_id = $('#officer_id').html();
         var ammo = $('#ammo').val();
-        var issue_by = $('#issue_by').val();
+        var issue_by = $('#issue_by').html();
         var start_time = $('#start_time').val();
         var return_time = $('#end_time').val();
         var maintain_on = $('#maintain_on').val();

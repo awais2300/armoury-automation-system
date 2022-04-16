@@ -17,7 +17,7 @@ $this->load->view('project_officer/common/header');
     <div class="card o-hidden my-4 border-0 shadow-lg">
         <div class="modal fade" id="new_contractor">
             <!-- <div class="row"> -->
-            <div class="modal-dialog modal-dialog-centered " style="margin-left: 370px;" role="document">
+            <div class="modal-dialog modal-dialog-centered " style="margin-left: 300px;" role="document">
                 <div class="modal-content bg-custom3" style="width:1000px;">
                     <div class="modal-header" style="width:1000px;">
 
@@ -36,14 +36,17 @@ $this->load->view('project_officer/common/header');
                                         <form class="user" role="form" method="post" id="add_form" action="<?= base_url(); ?>Project_Officer/insert_weapon">
                                             <!-- <form class="user" role="form" method="post" id="add_form" action="barcode.php"> -->
                                             <div class="form-group row">
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <h6>&nbsp;Weapon Name:</h6>
                                                 </div>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <h6>&nbsp;Weapon Type:</h6>
                                                 </div>
-                                                <div class="col-sm-4">
+                                                <div class="col-sm-3">
                                                     <h6>&nbsp;BarCode:</h6>
+                                                </div>
+                                                <div class="col-sm-3">
+                                                    <h6>&nbsp;Maintenance On:</h6>
                                                 </div>
                                                 <!--   <div class="col-sm-3">
                                                     <h6>&nbsp;Generate/Print:</h6>
@@ -51,14 +54,17 @@ $this->load->view('project_officer/common/header');
                                             </div>
 
                                             <div class="form-group row">
-                                                <div class="col-sm-4 mb-1">
+                                                <div class="col-sm-3 mb-1">
                                                     <input type="text" class="form-control form-control-user" name="weapon_name" id="weapon_name" placeholder="Weapon Name">
                                                 </div>
-                                                <div class="col-sm-4 mb-1">
+                                                <div class="col-sm-3 mb-1">
                                                     <input type="text" class="form-control form-control-user" name="weapon_type" id="weapon_type" placeholder="Weapon Type">
                                                 </div>
-                                                <div class="col-sm-4 mb-1">
+                                                <div class="col-sm-3 mb-1">
                                                     <input type="text" class="form-control form-control-user" name="barcode" id="barcode" placeholder="Enter Code">
+                                                </div>
+                                                <div class="col-sm-3 mb-1">
+                                                    <input type="date" class="form-control form-control-user" name="maintenance_on" id="maintenance_on" placeholder="Enter Date">
                                                 </div>
 
                                                 <!--  <div class="col-sm-3 mb-1"> -->
@@ -310,8 +316,8 @@ $this->load->view('project_officer/common/header');
                                                 <th scope="col">Weapon Name</th>
                                                 <th scope="col">Weapon Type</th>
                                                 <th scope="col">Barcode</th>
-                                                <th scope="col">Availability</th>
-                                                <th scope="col">Status</th>
+                                                <th scope="col">Maintenance On</th>
+                                                <!-- <th scope="col">Status</th> -->
                                                 <!-- <th scope="col">Assigned to Officer</th> -->
                                                 <!-- <th scope="col">Completed Projects</th> -->
                                                 <th scope="col">Edit Record</th>
@@ -326,12 +332,13 @@ $this->load->view('project_officer/common/header');
                                                     <td style="width:150px" scope="row"><?= $data['weapon_name']; ?></td>
                                                     <td class="quant" scope="row"><?= $data['weapon_type']; ?></td>
                                                     <td style="width:150px" scope="row"><?= $data['barcode']; ?></td>
-                                                    <td scope="row"><?php if ($data['availability'] == 'Y') {
-                                                                        echo "Yes";
-                                                                    } else {
-                                                                        echo "No";
-                                                                    }; ?></td>
-                                                    <td style="width:150px" scope="row"><?= $data['status']; ?></td>
+                                                    <td style="width:150px" scope="row"><?= $data['maintenance_on']; ?></td>
+                                                    <!-- <td scope="row"><?php if ($data['availability'] == 'Y') {
+                                                                    //     echo "Yes";
+                                                                    // } else {
+                                                                    //     echo "No";
+                                                                    }; ?></td> -->
+                                                    <!-- <td style="width:150px" scope="row"><?= $data['status']; ?></td> -->
                                                     <!-- <td scope="row" id="assigned_officers<?= $count; ?>" style="text-align:center; background-color:darksalmon; cursor: pointer;" data-toggle="modal" data-target="#assigned_projects"><?= $data['Assigned_Projects']; ?></td> -->
                                                     <!-- <td scope="row" id="completed_project<?= $count; ?>" style="text-align:center; background-color:darksalmon; cursor: pointer;" data-toggle="modal" data-target="#completed_projects"><?= $data['Completed_Projects']; ?></td> -->
                                                     <td style="width:120px" type="button" id="edit<?= $data['id']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 40px;" class="fas fa-edit"></i></td>
