@@ -92,7 +92,7 @@ class User_Login extends CI_Controller
 		$email = $_POST['email'];
 		$phone = $_POST['phone'];
 		$address = $_POST['address'];
-		$acct_type = $_POST['status'];
+		// $acct_type = $_POST['status'];
 		$id = $this->session->userdata('user_id');
 
 		$name = $this->db->where('id', $id)->get('security_info')->row_array();
@@ -105,19 +105,11 @@ class User_Login extends CI_Controller
 			'email' => $email,
 			'phone' => $phone,
 			'address' => $address,
-			'acct_type' => $acct_type
+			'acct_type' => 'user'
 		];
 
 		$this->db->where($cond);
 		$update = $this->db->update('security_info', $data_update);
-
-		$cond_project  = ['created_by' => $name['username']];
-		$data_update_project = [
-			'created_by' => $username
-		];
-
-		$this->db->where($cond_project);
-		$update_project = $this->db->update('projects', $data_update_project);
 
 		$this->session->set_userdata('username', $username);
 
