@@ -9,11 +9,7 @@ $this->load->view('project_officer/common/header');
 </style>
 
 <div class="container">
-    <!-- <div class="d-sm-flex align-items-center justify-content-between mb-4 my-2">
-        <h1 class="h3 mb-0 text-black-800"></h1>
-        <a onclick="location.href='<?php echo base_url(); ?>Project_Officer/report_contractor'" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fas fa-print text-white-50"></i> Print Page</a>
-    </div> -->
-
+ 
     <div class="card o-hidden my-4 border-0 shadow-lg">
         <div class="modal fade" id="new_contractor">
             <!-- <div class="row"> -->
@@ -316,7 +312,7 @@ $this->load->view('project_officer/common/header');
                                                 <th scope="col">Weapon Name</th>
                                                 <th scope="col">Weapon Type</th>
                                                 <th scope="col">Barcode</th>
-                                                <th scope="col">Maintenance On</th>
+                                                <th scope="col" style="white-space: nowrap">Maintenance Date</th>
                                                 <!-- <th scope="col">Status</th> -->
                                                 <!-- <th scope="col">Assigned to Officer</th> -->
                                                 <!-- <th scope="col">Completed Projects</th> -->

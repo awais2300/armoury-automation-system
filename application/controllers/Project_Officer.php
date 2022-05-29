@@ -272,7 +272,9 @@ class Project_Officer extends CI_Controller
     public function view_activity_log()
     {
         if ($this->session->has_userdata('user_id')) {
-            $data['activity_log'] = $this->db->get('activity_log')->result_array();
+            $data['weapon_records'] = $this->db->get('weapons')->result_array();
+            $data['weapon_allocation_records'] = $this->db->get('weapon_allocation_records')->result_array();
+            // $data['activity_log'] = $this->db->get('activity_log')->result_array();
             $this->load->view('project_officer/activity_log', $data);
         }
     }

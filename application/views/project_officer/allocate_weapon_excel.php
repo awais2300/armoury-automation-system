@@ -4,7 +4,7 @@
         border: 1px solid red !important;
     }
 
-    .modal {
+    /* .modal {
         display: none;
         position: fixed;
         padding-top: 100px;
@@ -14,7 +14,7 @@
         bottom: 0;
         overflow: auto;
         z-index: 9999;
-    }
+    } */
 
     th {
         color: black;
@@ -26,27 +26,115 @@
         font-size: smaller;
     }
 
-    input {
+    /* input {
         border: 1px solid lightgray;
-        height: 30px;
+        height: 20px;
         width: 80px !important
-    }
+    } */
 
-    select {
+    /* select {
         border: 1px solid lightgray;
-        height: 30px;
+        height: 25px;
         width: 80px !important
-    }
+    } */
 </style>
+
+
 
 <div class="container-fluid my-2">
 
-    <div class="form-group row justify-content-center">
+    <div class="modal fade" id="update_record">
+        <!-- <div class="row"> -->
+        <div class="modal-dialog modal-dialog-centered " style="margin-left: 300px;" role="document">
+            <div class="modal-content bg-custom3" style="width:1000px;">
+                <div class="modal-header" style="width:1000px;">
 
+                </div>
+                <div class="card-body bg-custom3">
+                    <!-- Nested Row within Card Body -->
+                    <div class="row">
+                        <div class="col-lg-12">
+
+                            <div class="card">
+                                <div class="card-header bg-custom1">
+                                    <h1 class="h4">Update Record</h1>
+                                </div>
+
+                                <div class="card-body bg-custom3">
+                                    <form class="form-group user" role="form" method="post" id="edit_form" action="<?= base_url(); ?>Project_Officer/update_weapon_allocation_record">
+                                        <div class="form-group row">
+                                            <div class="col-sm-4">
+                                                <h6>&nbsp;Weapon:</h6>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <h6>&nbsp;Ammo:</h6>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <h6>&nbsp;Issue Time:</h6>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <h6>&nbsp;Submit Time:</h6>
+                                            </div>
+                                            <div class="col-sm-2">
+                                                <h6>&nbsp;Maintained On:</h6>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-4 mb-1">
+                                                <select name="select_weapon"  class="form-control form-control-user" id="select_weapon_update" data-placeholder="Select Weapon" style="padding: 10px;height: 50px;">
+                                                    <option value="">Select Weapon</option>
+                                                    <?php foreach ($weapon_records as $data) { ?>
+                                                        <option class="form-control form-control-user" value="<?= $data['id'] ?>"><?= $data['weapon_name'] ?></option>
+                                                    <?php } ?>
+                                                </select>
+                                            </div>
+
+                                            <div class="col-sm-2 mb-1">
+                                                <input type="text" class="form-control form-control-user" name="ammo_update" id="ammo_update" placeholder="Weapon Type">
+                                            </div>
+                                            <div class="col-sm-2 mb-1">
+                                                <input type="datetime-local" class="form-control form-control-user" name="issue_time_update" id="issue_time_update" placeholder="Enter Code">
+                                            </div>
+                                            <div class="col-sm-2 mb-1">
+                                                <input type="datetime-local" class="form-control form-control-user" name="submit_time_update" id="submit_time_update" placeholder="Enter Date">
+                                            </div>
+                                            <div class="col-sm-2 mb-1">
+                                                <input type="date" class="form-control form-control-user" name="maintained_on_update" id="maintained_on_update" placeholder="Enter Date">
+                                            </div>
+
+                                        </div>
+
+                                        <br>
+
+                                        <div class="form-group row justify-content-center">
+                                            <div class="col-sm-4">
+                                                <button type="button" class="btn btn-primary btn-user btn-block" id="update_btn">
+                                                    <!-- <i class="fab fa-google fa-fw"></i>  -->
+                                                    Update Record
+                                                </button>
+                                                <span id="show_error_update" style="font-size:10px; color:red; display:none">&nbsp;&nbsp;Please check errors*</span>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-primary rounded-pill" data-dismiss="modal">Close</button> -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-group row justify-content-center">
         <div class="col-lg-12">
             <h1 style="text-align:center; padding:20px"><strong>Weapon Allocation Register</strong></h1>
         </div>
-
     </div>
 
     <div class="col-lg-12">
@@ -69,16 +157,16 @@
                         <thead>
                             <tr>
                                 <th scope="col">S.No.</th>
-                                <th scope="col" style="width:10px !important">P No.</th>
+                                <th scope="col" style="width:10px !important">P.NO./O.NO</th>
                                 <th scope="col">Name</th>
-                                <th scope="col">Rank</th>
+                                <th scope="col">Rank/Rate</th>
                                 <!-- <th scope="col">Branch</th> -->
                                 <th scope="col">Weapon</th>
                                 <th scope="col">Ammo</th>
-                                <th scope="col">Issue by</th>
-                                <th scope="col">Start Time</th>
-                                <th scope="col">End Time</th>
-                                <th scope="col">Maintenance On</th>
+                                <th scope="col">Issued by</th>
+                                <th scope="col">Issue Time</th>
+                                <th scope="col">Submit Time</th>
+                                <th scope="col">Maintained On</th>
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
@@ -98,29 +186,29 @@
                                         <td scope="row"><?= $data['start_time']; ?></td>
                                         <td scope="row"><?= $data['end_time']; ?></td>
                                         <td scope="row"><?= $data['maintain_on']; ?></td>
-                                        <td type="button"><i style="margin-left: 10px; font-size:small;" id="edit" class="fas fa-edit"></i></td>
+                                        <td scope="row" type="button"><i style="margin-left: 10px; font-size:small;" id="edit" class="fas fa-edit" data-toggle="modal" data-target="#update_record"></i></td>
 
                                     </tr>
                             <?php }
                             }  ?>
                             <tr>
                                 <td scope="row"><?php echo $count; ?></td>
-                                <td><input id="p_no"></td>
+                                <td><input id="p_no" style="border: 1px solid lightgray; height: 25px; width: 80px !important"></td>
                                 <td id="officer_id" style="display:none"></td>
                                 <td id="name"></td>
                                 <td id="rank"></td>
                                 <!-- <td id="branch"></td> -->
-                                <td id="weapon" style="display:none"><select name="select_weapon" id="select_weapon" data-placeholder="Select Weapon">
+                                <td id="weapon" style="display:none"><select name="select_weapon" id="select_weapon" data-placeholder="Select Weapon" style="border: 1px solid lightgray; height: 25px; width: 80px !important">
                                         <option value="">Select Weapon</option>
                                         <?php foreach ($weapon_records as $data) { ?>
                                             <option class="form-control form-control-user" value="<?= $data['id'] ?>"><?= $data['weapon_name'] ?></option>
                                         <?php } ?>
                                     </select></td>
-                                <td><input id="ammo" style="display:none"></td>
+                                <td><input id="ammo" style="display:none; border: 1px solid lightgray; height: 25px; width: 80px !important"></td>
                                 <td id="issue_by"></td>
-                                <td><input id="start_time" type="datetime-local" style="display:none; width:120px !important"></td>
-                                <td><input id="end_time" type="datetime-local" style="display:none; width:120px !important"></td>
-                                <td><input id="maintain_on" type="date" style="display:none; width:120px !important"></td>
+                                <td><input id="start_time" type="datetime-local" style="display:none; width:120px !important; border: 1px solid lightgray; height: 25px;"></td>
+                                <td><input id="end_time" type="datetime-local" style="display:none; width:120px !important; border: 1px solid lightgray; height: 25px;"></td>
+                                <td><input id="maintain_on" type="date" style="display:none; width:120px !important; border: 1px solid lightgray; height: 25px;"></td>
                                 <td type="button"><i style="margin-left: 10px; font-size:larger; display:none" id="save" class="fas fa-save"></i></td>
 
                             </tr>
@@ -272,6 +360,47 @@
             $('#show_error_new').show();
         }
 
+    });
+
+    $('#update_btn').on('click', function() {
+        var validate = 0;
+        var select_weapon = $('#select_weapon_update').val();
+        var weapon_name = $('#select_weapon_update').html();
+        // var officer_id = $('#officer_id').html();
+        var ammo = $('#ammo_update').val();
+        // var issue_time = $('#issue_time_update').html();
+        var issue_time = $('#issue_time_update').val();
+        var submit_time = $('#submit_time_update').val();
+        var maintain_on = $('#maintained_on_update').val();
+
+        if (select_weapon == '') {
+            validate = 1;
+            $('#select_weapon_update').addClass('red-border');
+        }
+        if (ammo == '') {
+            validate = 1;
+            $('#ammo_update').addClass('red-border');
+        }
+        if (issue_time == '') {
+            validate = 1;
+            $('#issue_time_update').addClass('red-border');
+        }
+        if (submit_time == '') {
+            validate = 1;
+            $('#submit_time_update').addClass('red-border');
+        }
+        if (maintain_on == '') {
+            validate = 1;
+            $('#maintained_on_update').addClass('red-border');
+        }
+
+        if(validate == 0){
+            $('#edit_form')[0].submit();
+            $('#show_error_update').hide();
+        } else { 
+            $('#update_btn').removeAttr('disabled');
+            $('#show_error_update').show();
+        }
     });
 
 

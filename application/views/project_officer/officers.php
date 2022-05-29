@@ -334,8 +334,8 @@ $this->load->view('project_officer/common/header');
                                             <tr>
                                                 <th scope="col">ID</th>
                                                 <th scope="col">Name</th>
-                                                <th scope="col">P_no</th>
-                                                <th scope="col">Rank</th>
+                                                <th scope="col">P.NO/O.NO</th>
+                                                <th scope="col">Rank/Rate</th>
                                                 <th scope="col">Branch</th>
 
                                                 <th scope="col">Email</th>
