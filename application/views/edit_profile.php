@@ -1,4 +1,9 @@
-<?php $this->load->view('project_officer/common/header'); ?>
+<?php if ($this->session->userdata('acct_type') == 'admin') {
+    $this->load->view('Admin/common/header');
+} else {
+    $this->load->view('project_officer/common/header');
+} ?>
+
 
 <style>
     .red-border {
@@ -86,14 +91,11 @@
                                                 <option class="form-control form-control-user" value="<?= $userdata['acct_type'] ?>">SO CW</option>
                                             <?php } else if ($userdata['acct_type'] == 'SO_RECORD') { ?>
                                                 <option class="form-control form-control-user" value="<?= $userdata['acct_type'] ?>">SO Record</option>
-                                            <?php }
-                                            else if ($userdata['acct_type'] == 'admin_super') { ?>
+                                            <?php } else if ($userdata['acct_type'] == 'admin_super') { ?>
                                                 <option class="form-control form-control-user" value="<?= $userdata['acct_type'] ?>">Admin Super</option>
-                                            <?php }
-                                             else if ($userdata['acct_type'] == 'admin_north') { ?>
+                                            <?php } else if ($userdata['acct_type'] == 'admin_north') { ?>
                                                 <option class="form-control form-control-user" value="<?= $userdata['acct_type'] ?>">Admin North</option>
-                                            <?php } 
-                                            else if ($userdata['acct_type'] == 'admin_south') { ?>
+                                            <?php } else if ($userdata['acct_type'] == 'admin_south') { ?>
                                                 <option class="form-control form-control-user" value="<?= $userdata['acct_type'] ?>">Admin South</option>
                                             <?php }     ?>
 

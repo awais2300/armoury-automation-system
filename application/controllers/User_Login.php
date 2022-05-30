@@ -126,6 +126,7 @@ class User_Login extends CI_Controller
 	{
 		$this->load->view('change_password');
 	}
+
 	public function change_password_process()
 	{
 		if ($this->input->post()) {

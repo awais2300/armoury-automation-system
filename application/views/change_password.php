@@ -1,4 +1,8 @@
-<?php $this->load->view('project_officer/common/header'); ?>
+<?php if ($this->session->userdata('acct_type') == 'admin') {
+    $this->load->view('Admin/common/header');
+} else {
+    $this->load->view('project_officer/common/header');
+} ?>
 
 <style>
     .red-border {

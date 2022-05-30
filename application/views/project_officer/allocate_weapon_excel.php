@@ -64,42 +64,59 @@
                                     <form class="form-group user" role="form" method="post" id="edit_form" action="<?= base_url(); ?>Project_Officer/update_weapon_allocation_record">
                                         <div class="form-group row">
                                             <div class="col-sm-4">
+                                                <h6>&nbsp;Officer Name:</h6>
+                                            </div>
+                                            <div class="col-sm-4">
                                                 <h6>&nbsp;Weapon:</h6>
                                             </div>
-                                            <div class="col-sm-2">
+                                            <div class="col-sm-4">
                                                 <h6>&nbsp;Ammo:</h6>
                                             </div>
-                                            <div class="col-sm-2">
-                                                <h6>&nbsp;Issue Time:</h6>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <h6>&nbsp;Submit Time:</h6>
-                                            </div>
-                                            <div class="col-sm-2">
-                                                <h6>&nbsp;Maintained On:</h6>
-                                            </div>
+
                                         </div>
 
                                         <div class="form-group row">
                                             <div class="col-sm-4 mb-1">
-                                                <select name="select_weapon"  class="form-control form-control-user" id="select_weapon_update" data-placeholder="Select Weapon" style="padding: 10px;height: 50px;">
+                                                <input type="text" class="form-control form-control-user" style="font-size:large;font-weight:bolder" name="officer_name_update" id="officer_name_update" placeholder="Enter Officer Name" disabled>
+                                            </div>
+                                            <div class="col-sm-4 mb-1">
+                                                <select name="select_weapon_update" class="form-control form-control-user" id="select_weapon_update" data-placeholder="Select Weapon" style="padding: 10px;height: 50px;">
                                                     <option value="">Select Weapon</option>
                                                     <?php foreach ($weapon_records as $data) { ?>
                                                         <option class="form-control form-control-user" value="<?= $data['id'] ?>"><?= $data['weapon_name'] ?></option>
                                                     <?php } ?>
                                                 </select>
                                             </div>
-
-                                            <div class="col-sm-2 mb-1">
+                                            <div class="col-sm-2 mb-1" style="display:none">
+                                                <input type="text" name="id_update" id="id_update">
+                                            </div>
+                                            <div class="col-sm-4 mb-1">
                                                 <input type="text" class="form-control form-control-user" name="ammo_update" id="ammo_update" placeholder="Weapon Type">
                                             </div>
-                                            <div class="col-sm-2 mb-1">
+
+
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-4">
+                                                <h6>&nbsp;Issue Time:</h6>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <h6>&nbsp;Submit Time:</h6>
+                                            </div>
+                                            <div class="col-sm-4">
+                                                <h6>&nbsp;Maintained On:</h6>
+                                            </div>
+                                        </div>
+
+                                        <div class="form-group row">
+                                            <div class="col-sm-4 mb-1">
                                                 <input type="datetime-local" class="form-control form-control-user" name="issue_time_update" id="issue_time_update" placeholder="Enter Code">
                                             </div>
-                                            <div class="col-sm-2 mb-1">
+                                            <div class="col-sm-4 mb-1">
                                                 <input type="datetime-local" class="form-control form-control-user" name="submit_time_update" id="submit_time_update" placeholder="Enter Date">
                                             </div>
-                                            <div class="col-sm-2 mb-1">
+                                            <div class="col-sm-4 mb-1">
                                                 <input type="date" class="form-control form-control-user" name="maintained_on_update" id="maintained_on_update" placeholder="Enter Date">
                                             </div>
 
@@ -170,7 +187,7 @@
                                 <th scope="col">Action</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="table_rows_records">
                             <?php $count = 1;
                             if (count($weapon_allocation_records) > 0) {
                                 foreach ($weapon_allocation_records as $data) {
@@ -187,7 +204,7 @@
                                         <td scope="row"><?= $data['end_time']; ?></td>
                                         <td scope="row"><?= $data['maintain_on']; ?></td>
                                         <td scope="row" type="button"><i style="margin-left: 10px; font-size:small;" id="edit" class="fas fa-edit" data-toggle="modal" data-target="#update_record"></i></td>
-
+                                        <td scope="row" style="display:none"><?= $data['weapon_id']; ?></td>
                                     </tr>
                             <?php }
                             }  ?>
@@ -366,11 +383,9 @@
         var validate = 0;
         var select_weapon = $('#select_weapon_update').val();
         var weapon_name = $('#select_weapon_update').html();
-        // var officer_id = $('#officer_id').html();
         var ammo = $('#ammo_update').val();
-        // var issue_time = $('#issue_time_update').html();
         var issue_time = $('#issue_time_update').val();
-        var submit_time = $('#submit_time_update').val();
+        // var submit_time = $('#submit_time_update').val();
         var maintain_on = $('#maintained_on_update').val();
 
         if (select_weapon == '') {
@@ -385,19 +400,19 @@
             validate = 1;
             $('#issue_time_update').addClass('red-border');
         }
-        if (submit_time == '') {
-            validate = 1;
-            $('#submit_time_update').addClass('red-border');
-        }
+        // if (submit_time == '') {
+        //     validate = 1;
+        //     $('#submit_time_update').addClass('red-border');
+        // }
         if (maintain_on == '') {
             validate = 1;
             $('#maintained_on_update').addClass('red-border');
         }
 
-        if(validate == 0){
+        if (validate == 0) {
             $('#edit_form')[0].submit();
             $('#show_error_update').hide();
-        } else { 
+        } else {
             $('#update_btn').removeAttr('disabled');
             $('#show_error_update').show();
         }
@@ -472,5 +487,26 @@
             $('#show_error_save').show();
         }
 
+    });
+
+    $('#table_rows_records').find('tr').click(function(e) {
+        var $columns = $(this).find('td');
+
+        // $('#project_name_heading').html('<strong>' + $columns[1].innerHTML + '</strong>');
+        // alert($columns[7].innerHTML);
+        var date = moment($columns[7].innerHTML).format("YYYY-MM-DD");
+        var time = moment($columns[7].innerHTML).format("HH:mm:ss");
+
+        var date2 = moment($columns[8].innerHTML).format("YYYY-MM-DD");
+        var time2 = moment($columns[8].innerHTML).format("HH:mm:ss");
+
+
+        $('#id_update').val($columns[0].innerHTML);
+        $('#officer_name_update').val($columns[2].innerHTML);
+        $('#select_weapon_update').val($columns[11].innerHTML);
+        $('#ammo_update').val($columns[5].innerHTML);
+        $('#issue_time_update').val(date + 'T' + time);
+        $('#submit_time_update').val(date2 + 'T' + time2);
+        $('#maintained_on_update').val($columns[9].innerHTML);
     });
 </script>
