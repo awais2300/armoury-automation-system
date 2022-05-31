@@ -1388,4 +1388,13 @@ class Project_Officer extends CI_Controller
             echo json_encode($query);
         }
     }
+
+    public function search_weapon_for_allocation_barcode()
+    {
+        if ($this->input->post()) {
+            $barcode = $_POST['barcode'];
+            $query['weapon'] = $this->db->where('barcode', $barcode)->get('weapons')->row_array();
+            echo json_encode($query);
+        }
+    }
 }

@@ -23,12 +23,14 @@ $this->load->view('project_officer/common/header');
         color: black;
         font-size: smaller;
         white-space: nowrap;
+        padding: 4px !important;
     }
 
     td {
         color: black;
         font-size: smaller;
         white-space: nowrap;
+        padding: 4px !important;
     }
 </style>
 
@@ -52,7 +54,7 @@ $this->load->view('project_officer/common/header');
                                     <th scope="col" style="width:10px !important">P.NO./O.NO</th>
                                     <th scope="col">Name</th>
                                     <th scope="col">Rank/Rate</th>
-                                    <!-- <th scope="col">Branch</th> -->
+                                    <th scope="col">Weapon Barcode</th>
                                     <th scope="col">Weapon</th>
                                     <th scope="col">Ammo</th>
                                     <th scope="col">Issued by</th>
@@ -71,6 +73,7 @@ $this->load->view('project_officer/common/header');
                                             <td scope="row"><?= $data['p_no']; ?></td>
                                             <td scope="row"><?= $data['name']; ?></td>
                                             <td scope="row"><?= $data['rank']; ?></td>
+                                            <td scope="row"><?= $data['weapon_barcode']; ?></td>
                                             <td scope="row"><?= $data['weapon_name']; ?></td>
                                             <td scope="row"><?= $data['magazine_provided']; ?></td>
                                             <td scope="row"><?= $data['issued_by']; ?></td>

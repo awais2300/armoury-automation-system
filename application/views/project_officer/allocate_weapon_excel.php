@@ -19,11 +19,15 @@
     th {
         color: black;
         font-size: smaller;
+        white-space: nowrap;
+        padding: 4px !important;
     }
 
     td {
         color: black;
         font-size: smaller;
+        white-space: nowrap;
+        padding: 4px !important;
     }
 
     /* input {
@@ -174,10 +178,10 @@
                         <thead>
                             <tr>
                                 <th scope="col">S.No.</th>
-                                <th scope="col" style="width:10px !important">P.NO./O.NO</th>
+                                <th scope="col" style="width:5px !important">P.NO./O.NO</th>
                                 <th scope="col">Name</th>
                                 <th scope="col">Rank/Rate</th>
-                                <!-- <th scope="col">Branch</th> -->
+                                <th scope="col">Weapon Barcode</th>
                                 <th scope="col">Weapon</th>
                                 <th scope="col">Ammo</th>
                                 <th scope="col">Issued by</th>
@@ -194,9 +198,10 @@
                                     $count++; ?>
                                     <tr>
                                         <td scope="row"><?= $data['id']; ?></td>
-                                        <td scope="row"><?= $data['p_no']; ?></td>
+                                        <td scope="row" style="width:5px"><?= $data['p_no']; ?></td>
                                         <td scope="row"><?= $data['name']; ?></td>
                                         <td scope="row"><?= $data['rank']; ?></td>
+                                        <td scope="row"><?= $data['weapon_barcode']; ?></td>
                                         <td scope="row"><?= $data['weapon_name']; ?></td>
                                         <td scope="row"><?= $data['magazine_provided']; ?></td>
                                         <td scope="row"><?= $data['issued_by']; ?></td>
@@ -210,22 +215,22 @@
                             }  ?>
                             <tr>
                                 <td scope="row"><?php echo $count; ?></td>
-                                <td><input id="p_no" style="border: 1px solid lightgray; height: 25px; width: 80px !important"></td>
+                                <td><input id="p_no" style="border: 1px solid lightgray; height: 25px; width: 60px !important"></td>
                                 <td id="officer_id" style="display:none"></td>
                                 <td id="name"></td>
                                 <td id="rank"></td>
-                                <!-- <td id="branch"></td> -->
+                                <td><input id="barcode" style="display:none; border: 1px solid lightgray; height: 25px; width: 80px !important"></td>
                                 <td id="weapon" style="display:none"><select name="select_weapon" id="select_weapon" data-placeholder="Select Weapon" style="border: 1px solid lightgray; height: 25px; width: 80px !important">
                                         <option value="">Select Weapon</option>
                                         <?php foreach ($weapon_records as $data) { ?>
                                             <option class="form-control form-control-user" value="<?= $data['id'] ?>"><?= $data['weapon_name'] ?></option>
                                         <?php } ?>
                                     </select></td>
-                                <td><input id="ammo" style="display:none; border: 1px solid lightgray; height: 25px; width: 80px !important"></td>
+                                <td><input id="ammo" style="display:none; border: 1px solid lightgray; height: 25px; width: 40px !important"></td>
                                 <td id="issue_by"></td>
                                 <td><input id="start_time" type="datetime-local" style="display:none; width:120px !important; border: 1px solid lightgray; height: 25px;"></td>
                                 <td><input id="end_time" type="datetime-local" style="display:none; width:120px !important; border: 1px solid lightgray; height: 25px;"></td>
-                                <td><input id="maintain_on" type="date" style="display:none; width:120px !important; border: 1px solid lightgray; height: 25px;"></td>
+                                <td><input id="maintain_on" type="date" style="display:none; width:100px !important; border: 1px solid lightgray; height: 25px;"></td>
                                 <td type="button"><i style="margin-left: 10px; font-size:larger; display:none" id="save" class="fas fa-save"></i></td>
 
                             </tr>
@@ -316,6 +321,54 @@
                         $('#end_time').show();
                         $('#maintain_on').show();
                         $('#save').show();
+                        $('#barcode').show();
+
+                    } else {
+                        $('#no_data').show();
+                        $('#search_cadet').hide();
+
+                    }
+
+                },
+                async: true
+            });
+
+        } else {
+            $('#add_btn').removeAttr('disabled');
+            $('#show_error_new').show();
+        }
+
+    });
+
+    $('#barcode').on('change', function() {
+        
+        var validate = 0;
+        var barcode = $('#barcode').val();
+
+        if (barcode == '') {
+            validate = 1;
+            $('#barcode').addClass('red-border');
+        }
+
+        if (validate == 0) {
+            // $('#add_form')[0].submit();
+            $('#show_error_new').hide();
+
+            $.ajax({
+                url: '<?= base_url(); ?>Project_Officer/search_weapon_for_allocation_barcode',
+                method: 'POST',
+                data: {
+                    'barcode': barcode
+                },
+                success: function(data) {
+                    var result = jQuery.parseJSON(data);
+
+                    if (result != undefined) {
+                        $('#search_cadet').show();
+                        $('#no_data').hide();
+
+                        $('#maintain_on').val(result['weapon']['maintenance_on']);
+                        $('#select_weapon').val(result['weapon']['id']);
 
                     } else {
                         $('#no_data').show();
