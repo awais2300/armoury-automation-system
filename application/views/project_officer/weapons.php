@@ -9,7 +9,7 @@ $this->load->view('project_officer/common/header');
 </style>
 
 <div class="container">
- 
+
     <div class="card o-hidden my-4 border-0 shadow-lg">
         <div class="modal fade" id="new_contractor">
             <!-- <div class="row"> -->
@@ -168,7 +168,8 @@ $this->load->view('project_officer/common/header');
                                                 </div>
 
                                                 <div class="col-sm-3 mb-1">
-                                                    <input type="text" class="form-control form-control-user" name="weapon_status_edit" id="weapon_status_edit" placeholder="Weapon Status">
+                                                    <select name="weapon_status_edit" id="weapon_status_edit" class="form-control form-control-user" data-placeholder="Select Weapon" style="padding:15px; height:50px;">
+                                                    </select>
                                                 </div>
 
                                             </div>
@@ -330,11 +331,11 @@ $this->load->view('project_officer/common/header');
                                                     <td style="width:150px" scope="row"><?= $data['barcode']; ?></td>
                                                     <td style="width:150px" scope="row"><?= $data['maintenance_on']; ?></td>
                                                     <!-- <td scope="row"><?php if ($data['availability'] == 'Y') {
-                                                                    //     echo "Yes";
-                                                                    // } else {
-                                                                    //     echo "No";
-                                                                    }; ?></td> -->
-                                                    <!-- <td style="width:150px" scope="row"><?= $data['status']; ?></td> -->
+                                                                                //     echo "Yes";
+                                                                                // } else {
+                                                                                //     echo "No";
+                                                                            }; ?></td> -->
+                                                    <td style="width:150px; display:none" scope="row"><?= $data['status']; ?></td>
                                                     <!-- <td scope="row" id="assigned_officers<?= $count; ?>" style="text-align:center; background-color:darksalmon; cursor: pointer;" data-toggle="modal" data-target="#assigned_projects"><?= $data['Assigned_Projects']; ?></td> -->
                                                     <!-- <td scope="row" id="completed_project<?= $count; ?>" style="text-align:center; background-color:darksalmon; cursor: pointer;" data-toggle="modal" data-target="#completed_projects"><?= $data['Completed_Projects']; ?></td> -->
                                                     <td style="width:120px" type="button" id="edit<?= $data['id']; ?>" class="edit" scope="row" data-toggle="modal" data-target="#edit_material"><i style="margin-left: 40px;" class="fas fa-edit"></i></td>
@@ -519,7 +520,11 @@ $this->load->view('project_officer/common/header');
         $('#weapon_type_edit').val($columns[2].innerHTML);
         $('#barcode_edit').val($columns[3].innerHTML);
         $('#weapon_avail_edit').val($columns[4].innerHTML);
-        $('#weapon_status_edit').val($columns[5].innerHTML);
+
+        $('#weapon_status_edit').html(`<option class="form-control form-control-user" value="${$columns[5].innerHTML}">${$columns[5].innerHTML}</option>`);
+        $('#weapon_status_edit').append(`<option class="form-control form-control-user" value="active">Active</option>`);
+        $('#weapon_status_edit').append(`<option class="form-control form-control-user" value="inactive">In-Active</option>`);
+        
 
         if ((e.target.id.substr(0, 16) == "assigned_project") || (e.target.id.substr(0, 17) == "completed_project")) {
 
