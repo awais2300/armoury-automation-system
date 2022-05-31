@@ -164,84 +164,84 @@
         </div>
     </div>
 
-    <div class="card-body bg-custom3">
-        <!-- Nested Row within Card Body -->
-        <div class="row">
-            <div class="col-lg-12">
+    <!-- <div class="card-body bg-custom3"> -->
+    <!-- Nested Row within Card Body -->
+    <div class="row">
+        <div class="col-lg-12">
 
-                <div class="card">
-                    <div class="card-header bg-custom1">
-                        <h1 class="h4">Record Entry Sheet</h1>
-                    </div>
-
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">S.No.</th>
-                                <th scope="col" style="width:5px !important">P.NO./O.NO</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Rank/Rate</th>
-                                <th scope="col">Weapon Barcode</th>
-                                <th scope="col">Weapon</th>
-                                <th scope="col">Ammo</th>
-                                <th scope="col">Issued by</th>
-                                <th scope="col">Issue Time</th>
-                                <th scope="col">Submit Time</th>
-                                <th scope="col">Maintained On</th>
-                                <th scope="col">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody id="table_rows_records">
-                            <?php $count = 1;
-                            if (count($weapon_allocation_records) > 0) {
-                                foreach ($weapon_allocation_records as $data) {
-                                    $count++; ?>
-                                    <tr>
-                                        <td scope="row"><?= $data['id']; ?></td>
-                                        <td scope="row" style="width:5px"><?= $data['p_no']; ?></td>
-                                        <td scope="row"><?= $data['name']; ?></td>
-                                        <td scope="row"><?= $data['rank']; ?></td>
-                                        <td scope="row"><?= $data['weapon_barcode']; ?></td>
-                                        <td scope="row"><?= $data['weapon_name']; ?></td>
-                                        <td scope="row"><?= $data['magazine_provided']; ?></td>
-                                        <td scope="row"><?= $data['issued_by']; ?></td>
-                                        <td scope="row"><?= $data['start_time']; ?></td>
-                                        <td scope="row"><?= $data['end_time']; ?></td>
-                                        <td scope="row"><?= $data['maintain_on']; ?></td>
-                                        <td scope="row" type="button"><i style="margin-left: 10px; font-size:small;" id="edit" class="fas fa-edit" data-toggle="modal" data-target="#update_record"></i></td>
-                                        <td scope="row" style="display:none"><?= $data['weapon_id']; ?></td>
-                                    </tr>
-                            <?php }
-                            }  ?>
-                            <tr>
-                                <td scope="row"><?php echo $count; ?></td>
-                                <td><input id="p_no" style="border: 1px solid lightgray; height: 25px; width: 60px !important"></td>
-                                <td id="officer_id" style="display:none"></td>
-                                <td id="name"></td>
-                                <td id="rank"></td>
-                                <td><input id="barcode" style="display:none; border: 1px solid lightgray; height: 25px; width: 80px !important"></td>
-                                <td id="weapon" style="display:none"><select name="select_weapon" id="select_weapon" data-placeholder="Select Weapon" style="border: 1px solid lightgray; height: 25px; width: 80px !important">
-                                        <option value="">Select Weapon</option>
-                                        <?php foreach ($weapon_records as $data) { ?>
-                                            <option class="form-control form-control-user" value="<?= $data['id'] ?>"><?= $data['weapon_name'] ?></option>
-                                        <?php } ?>
-                                    </select></td>
-                                <td><input id="ammo" style="display:none; border: 1px solid lightgray; height: 25px; width: 40px !important"></td>
-                                <td id="issue_by"></td>
-                                <td><input id="start_time" type="datetime-local" style="display:none; width:120px !important; border: 1px solid lightgray; height: 25px;"></td>
-                                <td><input id="end_time" type="datetime-local" style="display:none; width:120px !important; border: 1px solid lightgray; height: 25px;"></td>
-                                <td><input id="maintain_on" type="date" style="display:none; width:100px !important; border: 1px solid lightgray; height: 25px;"></td>
-                                <td type="button"><i style="margin-left: 10px; font-size:larger; display:none" id="save" class="fas fa-save"></i></td>
-
-                            </tr>
-
-                        </tbody>
-                    </table>
-
+            <div class="card">
+                <div class="card-header bg-custom1">
+                    <h1 class="h4">Record Entry Sheet</h1>
                 </div>
 
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th scope="col">S.No.</th>
+                            <th scope="col" style="width:5px !important">P.NO./O.NO</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Rank/Rate</th>
+                            <th scope="col">Weapon Barcode</th>
+                            <th scope="col">Weapon</th>
+                            <th scope="col">Ammo</th>
+                            <th scope="col">Issued by</th>
+                            <th scope="col">Issue Time</th>
+                            <th scope="col">Submit Time</th>
+                            <th scope="col">Maintained On</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="table_rows_records">
+                        <?php $count = 1;
+                        if (count($weapon_allocation_records) > 0) {
+                            foreach ($weapon_allocation_records as $data) {
+                                $count++; ?>
+                                <tr>
+                                    <td scope="row"><?= $data['id']; ?></td>
+                                    <td scope="row" style="width:5px"><?= $data['p_no']; ?></td>
+                                    <td scope="row"><?= $data['name']; ?></td>
+                                    <td scope="row"><?= $data['rank']; ?></td>
+                                    <td scope="row"><?= $data['weapon_barcode']; ?></td>
+                                    <td scope="row"><?= $data['weapon_name']; ?></td>
+                                    <td scope="row"><?= $data['magazine_provided']; ?></td>
+                                    <td scope="row"><?= $data['issued_by']; ?></td>
+                                    <td scope="row"><?= $data['start_time']; ?></td>
+                                    <td scope="row"><?= $data['end_time']; ?></td>
+                                    <td scope="row"><?= $data['maintain_on']; ?></td>
+                                    <td scope="row" type="button"><i style="margin-left: 10px; font-size:small;" id="edit" class="fas fa-edit" data-toggle="modal" data-target="#update_record"></i></td>
+                                    <td scope="row" style="display:none"><?= $data['weapon_id']; ?></td>
+                                </tr>
+                        <?php }
+                        }  ?>
+                        <tr>
+                            <td scope="row"><?php echo $count; ?></td>
+                            <td><input id="p_no" style="border: 1px solid lightgray; height: 20px; width: 60px !important"></td>
+                            <td id="officer_id" style="display:none"></td>
+                            <td id="name"></td>
+                            <td id="rank"></td>
+                            <td><input id="barcode" style="display:none; border: 1px solid lightgray; height: 20px; width: 80px !important"></td>
+                            <td id="weapon" style="display:none"><select name="select_weapon" id="select_weapon" data-placeholder="Select Weapon" style="border: 1px solid lightgray; height: 20px; width: 80px !important;font-size:small">
+                                    <option value="">Select Weapon</option>
+                                    <?php foreach ($weapon_records as $data) { ?>
+                                        <option class="form-control form-control-user" style="font-size:small" value="<?= $data['id'] ?>"><?= $data['weapon_name'] ?></option>
+                                    <?php } ?>
+                                </select></td>
+                            <td><input id="ammo" style="display:none; border: 1px solid lightgray; height: 20px; width: 40px !important"></td>
+                            <td id="issue_by"></td>
+                            <td><input id="start_time" type="datetime-local" style="display:none; width:120px !important; border: 1px solid lightgray; height: 20px;"></td>
+                            <td><input id="end_time" type="datetime-local" style="display:none; width:120px !important; border: 1px solid lightgray; height: 20px;"></td>
+                            <td><input id="maintain_on" type="date" style="display:none; width:100px !important; border: 1px solid lightgray; height: 20px;"></td>
+                            <td type="button"><i style="margin-left: 10px; font-size:larger; display:none" id="save" class="fas fa-save"></i></td>
+
+                        </tr>
+
+                    </tbody>
+                </table>
+
             </div>
+
         </div>
+        <!-- </div> -->
 
 
     </div>
@@ -281,18 +281,18 @@
     });
 
 
-    $('#p_no').on('focusout', function() {
+    $('#p_no').on('focusout change keyup', function() {
         var validate = 0;
         var p_no = $('#p_no').val();
 
-        if (p_no == '') {
-            validate = 1;
-            $('#p_no').addClass('red-border');
-        }
+        // if (p_no == '') {
+        //     validate = 1;
+        //     $('#p_no').addClass('red-border');
+        // }
 
-        if (validate == 0) {
+        // if (validate == 0) {
             // $('#add_form')[0].submit();
-            $('#show_error_new').hide();
+            // $('#show_error_new').hide();
 
             $.ajax({
                 url: '<?= base_url(); ?>Project_Officer/search_officer_for_allocation',
@@ -333,58 +333,45 @@
                 async: true
             });
 
-        } else {
-            $('#add_btn').removeAttr('disabled');
-            $('#show_error_new').show();
-        }
+        // } else {
+        //     $('#add_btn').removeAttr('disabled');
+        //     $('#show_error_new').show();
+        // }
 
     });
 
-    $('#barcode').on('change', function() {
-        
-        var validate = 0;
+    $('#barcode').on('change keyup', function() {
+
         var barcode = $('#barcode').val();
 
-        if (barcode == '') {
-            validate = 1;
-            $('#barcode').addClass('red-border');
-        }
+        $('#show_error_new').hide();
 
-        if (validate == 0) {
-            // $('#add_form')[0].submit();
-            $('#show_error_new').hide();
+        $.ajax({
+            url: '<?= base_url(); ?>Project_Officer/search_weapon_for_allocation_barcode',
+            method: 'POST',
+            data: {
+                'barcode': barcode
+            },
+            success: function(data) {
+                var result = jQuery.parseJSON(data);
 
-            $.ajax({
-                url: '<?= base_url(); ?>Project_Officer/search_weapon_for_allocation_barcode',
-                method: 'POST',
-                data: {
-                    'barcode': barcode
-                },
-                success: function(data) {
-                    var result = jQuery.parseJSON(data);
+                if (result != undefined) {
+                    $('#search_cadet').show();
+                    $('#no_data').hide();
 
-                    if (result != undefined) {
-                        $('#search_cadet').show();
-                        $('#no_data').hide();
+                    $('#maintain_on').val(result['weapon']['maintenance_on']);
+                    $('#select_weapon').val(result['weapon']['id']);
+                    $('#select_weapon').attr("readonly", "readonly");
 
-                        $('#maintain_on').val(result['weapon']['maintenance_on']);
-                        $('#select_weapon').val(result['weapon']['id']);
+                } else {
+                    $('#no_data').show();
+                    $('#search_cadet').hide();
 
-                    } else {
-                        $('#no_data').show();
-                        $('#search_cadet').hide();
+                }
 
-                    }
-
-                },
-                async: true
-            });
-
-        } else {
-            $('#add_btn').removeAttr('disabled');
-            $('#show_error_new').show();
-        }
-
+            },
+            async: true
+        });
     });
 
     $('#select_weapon').on('change', function() {
@@ -397,7 +384,6 @@
         }
 
         if (validate == 0) {
-            // $('#add_form')[0].submit();
             $('#show_error_new').hide();
 
             $.ajax({
