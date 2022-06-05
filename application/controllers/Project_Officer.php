@@ -590,29 +590,49 @@ class Project_Officer extends CI_Controller
         $start_time = $_POST['start_time'];
         $return_time = $_POST['return_time'];
         $maintain_on = $_POST['maintain_on'];
+        $record_type = $_POST["record_type"];
 
         $rank = $_POST['rank'];
         $name = $_POST['name'];
         $weapon_name =   $barcode_data['weapon_name'];
 
-        $insert_array = array(
-            'officer_id' => $officer_id,
-            'p_no' => $p_no,
-            'name' => $name,
-            'rank' => $rank,
-            'weapon_id' => $weapon_id,
-            'weapon_name' => $weapon_name,
-            'weapon_barcode' => $weapon_barcode,
-            'issued_by' => $issue_by,
-            'start_time' => $start_time,
-            'end_time' => $return_time,
-            'magazine_provided' => $ammo,
-            'maintain_on' => $maintain_on,
-            'status' => 'Open'
-        );
-        //print_r($insert_array);exit;
-        $insert = $this->db->insert('weapon_allocation_records', $insert_array);
-        //$last_id = $this->db->insert_id();
+        if ($record_type == "New") {
+            $insert_array = array(
+                'officer_id' => $officer_id,
+                'p_no' => $p_no,
+                'name' => $name,
+                'rank' => $rank,
+                'weapon_id' => $weapon_id,
+                'weapon_name' => $weapon_name,
+                'weapon_barcode' => $weapon_barcode,
+                'issued_by' => $issue_by,
+                'start_time' => $start_time,
+                'end_time' => $return_time,
+                'magazine_provided' => $ammo,
+                'maintain_on' => $maintain_on,
+                'status' => 'Open'
+            );
+            $insert = $this->db->insert('weapon_allocation_records', $insert_array);
+
+        } else if ($record_type == "Old") {
+            $cond  = [
+                'officer_id' => $officer_id,
+                'weapon_id' => $weapon_id,
+                'weapon_barcode' => $weapon_barcode,
+                'Status' => 'Open'
+            ];
+            $data_update = [
+                'end_time' => $return_time,
+                'Status' => 'Closed',
+            ];
+            // print_r($cond); 
+            // print_r($data_update);
+            
+            $this->db->where($cond);
+            $insert =  $this->db->update('weapon_allocation_records', $data_update);
+            // print_r($this->db->last_query());exit;
+        }
+
 
         if (!empty($insert)) {
 
@@ -636,9 +656,9 @@ class Project_Officer extends CI_Controller
                 );
                 $insert = $this->db->insert('activity_log_seen', $insert_activity_seen);
             }
-            // redirect('Project_Officer/allocate_weapon');
+            
         } else {
-            // $this->session->set_flashdata('failure', 'Something went wrong, try again.');
+            
         }
     }
 
@@ -1394,6 +1414,15 @@ class Project_Officer extends CI_Controller
         if ($this->input->post()) {
             $barcode = $_POST['barcode'];
             $query['weapon'] = $this->db->where('barcode', $barcode)->get('weapons')->row_array();
+            echo json_encode($query);
+        }
+    }
+
+    public function get_weapon_allocation_record()
+    {
+        if ($this->input->post()) {
+            $barcode = $_POST['barcode'];
+            $query['weapon_exist'] = $this->db->where('weapon_barcode', $barcode)->where('status', 'Open')->get('weapon_allocation_records')->row_array();
             echo json_encode($query);
         }
     }

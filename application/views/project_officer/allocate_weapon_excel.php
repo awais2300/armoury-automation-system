@@ -163,9 +163,17 @@
             Task Scheduled successfully!!
         </div>
     </div>
+    <div class="col-lg-12">
+        <div id="event_alert_danger" class="alert alert-danger" role="alert" style="display:none">
+            No Weapon Allocated against this barcode!!
+        </div>
+    </div>
 
-    <!-- <div class="card-body bg-custom3"> -->
-    <!-- Nested Row within Card Body -->
+    <div class="d-sm-flex align-items-center justify-content-between">
+        <h1 id="hide_empty_space" class="h3 mb-0 text-black-800"></h1>
+        <input id="return_barcode" style="display:none; border: 1px solid black; border-radius:5px; height: 20px; width: 160px !important" placeholder="Scan Barcode">
+        <a id="btn_return_weapon" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm" href="#" style="margin-block-end: 10px; "><i class="fas fa-undo"></i> Return Weapon</a>
+    </div>
     <div class="row">
         <div class="col-lg-12">
 
@@ -219,7 +227,7 @@
                             <td id="officer_id" style="display:none"></td>
                             <td id="name"></td>
                             <td id="rank"></td>
-                            <td><input id="barcode" style="display:none; border: 1px solid lightgray; height: 20px; width: 80px !important"></td>
+                            <td><input id="barcode" style="display:none; border: 1px solid lightgray; height: 20px; width: 100px !important"></td>
                             <td id="weapon" style="display:none"><select name="select_weapon" id="select_weapon" data-placeholder="Select Weapon" style="border: 1px solid lightgray; height: 20px; width: 80px !important;font-size:small">
                                     <option value="">Select Weapon</option>
                                     <?php foreach ($weapon_records as $data) { ?>
@@ -228,11 +236,13 @@
                                 </select></td>
                             <td><input id="ammo" style="display:none; border: 1px solid lightgray; height: 20px; width: 40px !important"></td>
                             <td id="issue_by"></td>
-                            <td><input id="start_time" type="datetime-local" style="display:none; width:120px !important; border: 1px solid lightgray; height: 20px;"></td>
-                            <td><input id="end_time" type="datetime-local" style="display:none; width:120px !important; border: 1px solid lightgray; height: 20px;"></td>
+                            <td><input id="start_time" type="datetime-local" style="display:none; width:140px !important; border: 1px solid lightgray; height: 20px;"></td>
+                            <td><input id="end_time" type="datetime-local" style="display:none; width:140px !important; border: 1px solid lightgray; height: 20px;"></td>
                             <td><input id="maintain_on" type="date" style="display:none; width:100px !important; border: 1px solid lightgray; height: 20px;"></td>
                             <td type="button"><i style="margin-left: 10px; font-size:larger; display:none" id="save" class="fas fa-save"></i></td>
-
+                            <div class="col-sm-3 mb-1" style="display:none">
+                                <input class="form-control form-control-user" name="record_type" id="record_type">
+                            </div>
                         </tr>
 
                     </tbody>
@@ -285,65 +295,47 @@
         var validate = 0;
         var p_no = $('#p_no').val();
 
-        // if (p_no == '') {
-        //     validate = 1;
-        //     $('#p_no').addClass('red-border');
-        // }
+        $.ajax({
+            url: '<?= base_url(); ?>Project_Officer/search_officer_for_allocation',
+            method: 'POST',
+            data: {
+                'p_no': p_no
+            },
+            success: function(data) {
+                var result = jQuery.parseJSON(data);
 
-        // if (validate == 0) {
-            // $('#add_form')[0].submit();
-            // $('#show_error_new').hide();
-
-            $.ajax({
-                url: '<?= base_url(); ?>Project_Officer/search_officer_for_allocation',
-                method: 'POST',
-                data: {
-                    'p_no': p_no
-                },
-                success: function(data) {
-                    var result = jQuery.parseJSON(data);
-
-                    if (result != undefined) {
-                        $('#search_cadet').show();
-                        $('#no_data').hide();
+                if (result != undefined) {
+                    $('#search_cadet').show();
+                    $('#no_data').hide();
 
 
-                        $('#name').html(result['officer']['name']);
-                        $('#officer_id').html(result['officer']['id']);
-                        $('#rank').html(result['officer']['rank']);
-                        $('#branch').html(result['officer']['branch']);
-                        $('#issue_by').html(result['user']);
+                    $('#name').html(result['officer']['name']);
+                    $('#officer_id').html(result['officer']['id']);
+                    $('#rank').html(result['officer']['rank']);
+                    $('#branch').html(result['officer']['branch']);
+                    $('#issue_by').html(result['user']);
+                    $('#record_type').val("New"); //To Save New Record
 
-                        $('#weapon').show();
-                        $('#ammo').show();
-                        $('#issue_by').show();
-                        $('#start_time').show();
-                        $('#end_time').show();
-                        $('#maintain_on').show();
-                        $('#save').show();
-                        $('#barcode').show();
+                    $('#weapon').show();
+                    $('#ammo').show();
+                    $('#issue_by').show();
+                    $('#start_time').show();
+                    $('#end_time').show();
+                    $('#maintain_on').show();
+                    $('#save').show();
+                    $('#barcode').show();
 
-                    } else {
-                        $('#no_data').show();
-                        $('#search_cadet').hide();
-
-                    }
-
-                },
-                async: true
-            });
-
-        // } else {
-        //     $('#add_btn').removeAttr('disabled');
-        //     $('#show_error_new').show();
-        // }
-
+                } else {
+                    $('#no_data').show();
+                    $('#search_cadet').hide();
+                }
+            },
+            async: true
+        });
     });
 
     $('#barcode').on('change keyup', function() {
-
         var barcode = $('#barcode').val();
-
         $('#show_error_new').hide();
 
         $.ajax({
@@ -363,11 +355,110 @@
                     $('#select_weapon').val(result['weapon']['id']);
                     $('#select_weapon').attr("readonly", "readonly");
 
+                    const dateObj = new Date();
+                    let year = dateObj.getFullYear();
+                    let month = dateObj.getMonth() + 1;
+                    month = ('0' + month).slice(-2);
+
+                    let date = dateObj.getDate();
+                    date = ('0' + date).slice(-2);
+
+                    let hour = dateObj.getHours();
+                    hour = ('0' + hour).slice(-2);
+
+                    let minute = dateObj.getMinutes();
+                    minute = ('0' + minute).slice(-2);
+
+                    let second = dateObj.getSeconds();
+                    second = ('0' + second).slice(-2);
+                    $('#start_time').val(`${year}-${month}-${date}T${hour}:${minute}:${second}`);
+
                 } else {
                     $('#no_data').show();
                     $('#search_cadet').hide();
 
                 }
+
+            },
+            async: true
+        });
+    });
+
+    $('#return_barcode').on('change keyup', function() {
+        var return_barcode = $('#return_barcode').val();
+        // alert(return_barcode);
+        $.ajax({
+            url: '<?= base_url(); ?>Project_Officer/get_weapon_allocation_record',
+            method: 'POST',
+            data: {
+                'barcode': return_barcode
+            },
+            success: function(data) {
+                var result = jQuery.parseJSON(data);
+
+                // if (result != undefined) {
+                if (result['weapon_exist'] != null) {
+
+                    $('#search_cadet').show();
+                    $('#no_data').hide();
+
+                    $('#weapon').show();
+                    $('#ammo').show();
+                    $('#issue_by').show();
+                    $('#start_time').show();
+                    $('#end_time').show();
+                    $('#maintain_on').show();
+                    $('#save').show();
+                    $('#barcode').show();
+
+                    // alert(result['weapon_exist']['weapon_barcode']);
+
+                    $('#p_no').val(result['weapon_exist']['p_no']);
+                    $('#name').html(result['weapon_exist']['name']);
+                    $('#officer_id').html(result['weapon_exist']['officer_id']);
+                    $('#rank').html(result['weapon_exist']['rank']);
+                    $('#select_weapon').val(result['weapon_exist']['weapon_id']);
+                    $('#issue_by').html(result['weapon_exist']['issued_by']);
+                    $('#barcode').val(result['weapon_exist']['weapon_barcode']);
+                    $('#record_type').val("Old"); //To Update the record
+
+                    var date_part = result['weapon_exist']['start_time'].substring(0, 10);
+                    var time_part = result['weapon_exist']['start_time'].substring(11, 16);
+                    $('#start_time').val(date_part + "T" + time_part);
+
+                    $('#ammo').val(result['weapon_exist']['magazine_provided']);
+                    $('#maintain_on').val(result['weapon_exist']['maintain_on']);
+
+                    const dateObj = new Date();
+                    let year = dateObj.getFullYear();
+                    let month = dateObj.getMonth() + 1;
+                    month = ('0' + month).slice(-2);
+
+                    let date = dateObj.getDate();
+                    date = ('0' + date).slice(-2);
+
+                    let hour = dateObj.getHours();
+                    hour = ('0' + hour).slice(-2);
+
+                    let minute = dateObj.getMinutes();
+                    minute = ('0' + minute).slice(-2);
+
+                    let second = dateObj.getSeconds();
+                    second = ('0' + second).slice(-2);
+                    $('#end_time').val(`${year}-${month}-${date}T${hour}:${minute}:${second}`);
+                } else {
+                    $('#record_type').val("New"); //To Save New Record
+                    $('#event_alert_danger').show();
+                    setTimeout(function() {
+                        $('.alert').hide();
+                    }, 2000);
+                }
+
+                // } else {
+
+
+
+                // }
 
             },
             async: true
@@ -457,6 +548,22 @@
         }
     });
 
+    $('#btn_return_weapon').on('click', function() {
+
+        $('#hide_empty_space').hide();
+        $('#return_barcode').show();
+
+        var dt = new Date();
+        var time = dt.getHours() + ":" + dt.getMinutes() + ":" + dt.getSeconds();
+
+        var date = Date($.now());
+        // alert(abc);
+        var date_part = date.substring(0, 10);
+        var time_part = date.substring(11, 16);
+        // $('#start_time').val(date_part + "T" + time_part);
+        // alert(date_part + "T" + time_part);
+    });
+
 
     $('#save').on('click', function() {
         var validate = 0;
@@ -468,6 +575,7 @@
         var start_time = $('#start_time').val();
         var return_time = $('#end_time').val();
         var maintain_on = $('#maintain_on').val();
+        var record_type = $('#record_type').val();
 
         var rank = $('#rank').html();
         var name = $('#name').html();
@@ -505,7 +613,8 @@
                     'issue_by': issue_by,
                     'start_time': start_time,
                     'return_time': return_time,
-                    'maintain_on': maintain_on
+                    'maintain_on': maintain_on,
+                    'record_type': record_type
                 },
                 success: function(data) {
                     $('#event_alert').show();
