@@ -16,6 +16,21 @@
          overflow: auto;
          z-index: 9999;
      }
+
+     th {
+        color: black;
+        font-size: smaller;
+        white-space: nowrap;
+        padding: 4px !important;
+    }
+
+    td {
+        color: black;
+        font-size: smaller;
+        white-space: nowrap;
+        padding: 4px !important;
+    }
+    
  </style>
 
  <div class="container">
@@ -27,40 +42,52 @@
 
                      <div class="card bg-custom3">
                          <div class="card-header bg-custom1">
-                             <h1 class="h4">Activity Log Detail</h1>
+                             <h1 class="h4">Weapon Allocation logs</h1>
                          </div>
 
                          <div class="card-body">
                              <div id="table_div">
-                                 <?php if (count($activity_log) > 0) { ?>
-                                     <table id="datatable" class="table table-striped" style="color:black">
-                                         <thead>
-                                             <tr>
-                                                 <th scope="col">Activity Date & Time</th>
-                                                 <th scope="col">User ID</th>
-                                                 <th scope="col">Description</th>
-                                                 <th scope="col">Action</th>
-                                                 <!-- <th scope="col">Module</th> -->
-                                             </tr>
-                                         </thead>
-                                         <tbody id="table_rows_project">
-                                             <?php $count = 1;
-                                                foreach ($activity_log as $data) { ?>
+                                 <table class="table">
+                                     <thead>
+                                         <tr>
+                                             <th scope="col">S.No.</th>
+                                             <th scope="col" style="width:10px !important">P.NO./O.NO</th>
+                                             <th scope="col">Name</th>
+                                             <th scope="col">Rank/Rate</th>
+                                             <th scope="col">Weapon Barcode</th>
+                                             <th scope="col">Weapon</th>
+                                             <th scope="col">Ammo</th>
+                                             <th scope="col">Issued by</th>
+                                             <th scope="col">Issue Time</th>
+                                             <th scope="col">Submit Time</th>
+                                             <th scope="col">Maintained On</th>
+                                         </tr>
+                                     </thead>
+                                     <tbody>
+                                         <?php $count = 1;
+                                            if (count($weapon_allocation_records) > 0) {
+                                                foreach ($weapon_allocation_records as $data) {
+                                                    $count++; ?>
                                                  <tr>
-                                                     <td scope="row"><?= $data['activity_date']; ?></td>
-                                                     <td scope="row"><?= $data['activity_by']; ?></td>
-                                                     <td scope="row"><?= $data['activity_detail']; ?></td>
-                                                     <td scope="row"><?= $data['activity_action']; ?></td>
-                                                     <!-- <td scope="row"><?= $data['activity_module']; ?></td> -->
+                                                     <td scope="row"><?= $data['id']; ?></td>
+                                                     <td scope="row"><?= $data['p_no']; ?></td>
+                                                     <td scope="row"><?= $data['name']; ?></td>
+                                                     <td scope="row"><?= $data['rank']; ?></td>
+                                                     <td scope="row"><?= $data['weapon_barcode']; ?></td>
+                                                     <td scope="row"><?= $data['weapon_name']; ?></td>
+                                                     <td scope="row"><?= $data['magazine_provided']; ?></td>
+                                                     <td scope="row"><?= $data['issued_by']; ?></td>
+                                                     <td scope="row"><?= $data['start_time']; ?></td>
+                                                     <td scope="row"><?= $data['end_time']; ?></td>
+                                                     <td scope="row"><?= $data['maintain_on']; ?></td>
                                                  </tr>
-                                             <?php
-                                                    $count++;
-                                                } ?>
-                                         </tbody>
-                                     </table>
-                                 <?php } else { ?>
-                                     <a> No Data Available yet </a>
-                                 <?php } ?>
+                                         <?php }
+                                            }  ?>
+
+
+                                     </tbody>
+                                 </table>
+
                              </div>
                          </div>
                      </div>

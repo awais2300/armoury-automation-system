@@ -110,6 +110,16 @@ CREATE TABLE `activity_log` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
+-- Table structure for table `weapon_ammo_record`
+--
+CREATE TABLE `weapon_ammo_record` (
+  `id` bigint(20) NOT NULL,
+  `weapon_name` varchar(255) NOT NULL,
+  `total_weapon` int NULL,
+  `total_ammo` int NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+--
 -- Table structure for table `activity_log`
 --
 
@@ -157,6 +167,12 @@ ALTER TABLE `weapon_allocation_records`
 --  
 ALTER TABLE `activity_log`
  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `weapon_ammo_record`
+--  
+ALTER TABLE `weapon_ammo_record`
+ ADD PRIMARY KEY (`id`);
  
 
 --
@@ -187,6 +203,13 @@ ALTER TABLE `weapon_allocation_records`
 -- AUTO_INCREMENT for table `activity_log`
 --
 ALTER TABLE `activity_log`
+ MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+
+--
+-- AUTO_INCREMENT for table `weapon_ammo_record`
+--
+ALTER TABLE `weapon_ammo_record`
  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
   
 

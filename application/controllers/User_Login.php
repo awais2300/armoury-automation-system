@@ -18,7 +18,7 @@ class User_Login extends CI_Controller
 		if ($this->session->has_userdata('user_id')) {
 			$id = $this->session->userdata('user_id');
 			$acct_type = $this->session->userdata('acct_type');
-
+			
 			if ($acct_type == "user") {
 				redirect('Project_Officer');
 			} else if ($acct_type == "admin") {
@@ -46,7 +46,7 @@ class User_Login extends CI_Controller
 			$password = $postedData['password'];
 
 			$status = $this->db->select('acct_type, full_name')->where('username', $username)->get('security_info')->row_array();
-
+			
 			if (!empty($status)) {
 				$query = $this->db->where('username', $username)->where('acct_type', $status['acct_type'])->get('security_info')->row_array();
 				$hash = $query['password'];

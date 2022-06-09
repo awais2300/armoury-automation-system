@@ -98,15 +98,23 @@ class Admin extends CI_Controller
     public function view_activity_log()
     {
         if ($this->session->has_userdata('user_id')) {
-            $data['activity_log'] = $this->db->get('activity_log')->result_array();
+            // $data['activity_log'] = $this->db->get('activity_log')->result_array();
+            $data['weapon_records'] = $this->db->get('weapons')->result_array();
+            $data['weapon_allocation_records'] = $this->db->get('weapon_allocation_records')->result_array();
             $this->load->view('Admin/activity_log', $data);
         }
     }
 
     public function show_user_list()
     {
-        $data['users_list'] = $this->db->where_not_in('acct_type','admin')->get('security_info')->result_array();
+        $data['users_list'] = $this->db->where_not_in('acct_type', 'admin')->get('security_info')->result_array();
         $this->load->view('Admin/user_list', $data);
+    }
+
+    public function show_total_weapon()
+    {
+        $data['weapon_list'] = $this->db->get('weapon_ammo_record')->result_array();
+        $this->load->view('Admin/weapon_ammo_record', $data);
     }
 
     public function delete_user($user_id = NULL)
@@ -129,6 +137,58 @@ class Admin extends CI_Controller
         } else {
             $this->session->set_flashdata('failure', 'Error');
             redirect('Admin/show_user_list');
+        }
+    }
+
+    public function save_weapon_ammo_record()
+    {
+
+        $id = $_POST['id'];
+        $weapon_name = $_POST['weapon_name'];
+        $total_weapon = $_POST['total_weapon'];
+        $total_ammo = $_POST['total_ammo'];
+        $record_type = $_POST['record_type'];
+
+        $insert_array = array(
+            'weapon_name' => $weapon_name,
+            'total_weapon' => $total_weapon,
+            'total_ammo' => $total_ammo
+        );
+        $insert = $this->db->insert('weapon_ammo_record', $insert_array);
+    }
+
+    public function update_weapon_ammo_record()
+    {
+        if ($this->input->post()) {
+            $postData = $this->security->xss_clean($this->input->post());
+
+            $id = $postData['id_update'];
+            $total_weapon_update = $postData['total_weapon_update'];
+            $total_ammo_update = $postData['total_ammo_update'];
+
+
+
+            $cond  = [
+                'id' => $id,
+            ];
+            $data_update = [
+                'total_weapon' => $total_weapon_update,
+                'total_ammo' => $total_ammo_update
+            ];
+
+            $this->db->where($cond);
+            $insert =  $this->db->update('weapon_ammo_record', $data_update);
+
+
+            if (!empty($insert)) {
+                $this->session->set_flashdata('success', 'Data Updated successfully');
+                redirect('Admin/show_total_weapon');
+            } else {
+                $this->session->set_flashdata('failure', 'Something went wrong, try again.');
+            }
+        } else {
+            $this->session->set_flashdata('failure', 'Something went wrong, Try again.');
+            redirect('Admin');
         }
     }
 }

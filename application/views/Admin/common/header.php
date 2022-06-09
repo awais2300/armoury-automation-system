@@ -53,6 +53,12 @@
             <!-- Nav Item - Pages Collapse Menu -->
 
             <li class="nav-item">
+                <a class="nav-link" href="<?= base_url(); ?>Admin/show_total_weapon" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
+                    <i class="fas fa-sort-amount-down-alt"></i>
+                    <span>Total Weapon & Ammo</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="<?= base_url(); ?>Admin/add_users" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                     <i class="fas fa-fw fa-user"></i>
                     <span>Create New User</span>
@@ -79,7 +85,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link collapsed" href="<?php echo base_url(); ?>Admin/view_activity_log" aria-expanded="true">
-                    <i  class="far fa-list-alt"></i>
+                    <i class="far fa-list-alt"></i>
                     <span> View Activity Log </span>
                 </a>
             </li>
