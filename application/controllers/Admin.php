@@ -17,7 +17,7 @@ class Admin extends CI_Controller
         }
     }
 
-    public function add_users()
+    public function add_users() 
     {
         $this->load->view('Admin/create_user');
     }
